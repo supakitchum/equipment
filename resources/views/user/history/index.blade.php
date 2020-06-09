@@ -23,6 +23,7 @@
                                 <th>อนุมัติเมื่อ</th>
                                 <th>ส่งต่อเมื่อ</th>
                                 <th>คืนเมื่อ</th>
+                                <th>เหตุผลการคืน</th>
                                 <th>ปฎิเสธเมื่อ</th>
                                 </thead>
                                 <tbody>
@@ -36,6 +37,7 @@
                                         <td>{{ $result->approve_date ?:'-' }}</td>
                                         <td>{{ $result->transfer_date ?:'-' }}</td>
                                         <td>{{ $result->return_date ?:'-' }}</td>
+                                        <td>{{ $result->return_reason ?:'-' }}</td>
                                         <td>{{ $result->reject_date ?:'-' }}</td>
                                     </tr>
                                 @endforeach

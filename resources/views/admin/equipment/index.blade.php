@@ -171,11 +171,11 @@
         </div>
         <div class="form-group">
             <label for="code">รหัสครุภัณฑ์</label>
-            <input onchange="onchangeCode()" onmouseup="document.getElementById('code').select();" class="form-control" type="text" id="return_code" name="code"/>
+            <input onchange="onchangeCode()" required class="form-control" type="text" id="return_code" name="code"/>
         </div>
         <div class="form-group">
             <label>ชื่อครุภัณฑ์</label>
-            <input id="return_name" readonly class="form-control" type="text" value="">
+            <input required id="return_name" readonly class="form-control" type="text">
         </div>
         <div class="form-group">
             <label>หมวดหมู่</label>
@@ -184,6 +184,10 @@
         <div class="form-group">
             <label>ประเภท</label>
             <input id="return_type" readonly class="form-control" type="text" value="">
+        </div>
+        <div class="form-group">
+            <label>เหตุผลการคืน</label>
+            <textarea class="form-control" type="text" name="return_reason"></textarea>
         </div>
     @endsection
     @include('widget.modal',[
@@ -234,7 +238,7 @@
             $('#return_equipment_id').val('')
             $('#status').html('<span class="badge badge-info">ยังไม่ทราบ</span>')
             setTimeout(function () {
-                $('#return_equipment_code').focus();
+                $('#return_code').focus();
             },500)
         });
 
