@@ -18,7 +18,7 @@ class CreateReservingToolsTable extends Migration
             $table->integer('user_id');
             $table->integer('equipment_id')->nullable();
             $table->integer('approved_by')->nullable();
-            $table->enum('reserving_state',[0,1,2,3,4]);
+            $table->enum('reserving_state',[0,1,2,3,4,5]);
             $table->timestamps();
         });
     }
