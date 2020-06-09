@@ -30,11 +30,21 @@
                                 'tag' => 'input',
                                 'name' => 'name',
                                 'id' => 'name',
-                                'label' => 'รหัสอุปกรณ์',
+                                'label' => 'เลขครุภัณฑ์',
                                 'type' => 'text',
                                 'placeholder' => '',
                                 'value' => $result->code,
                                 'disabled' => true
+                            ],
+                            [
+                                'col' => 'col-sm-12 col-lg-12',
+                                'tag' => 'input',
+                                'name' => 'name',
+                                'id' => 'name',
+                                'label' => 'รหัสครุภัณฑ์',
+                                'type' => 'text',
+                                'placeholder' => '',
+                                'value' => $result->serial
                             ],
                             [
                                 'col' => 'col-sm-12 col-lg-12',

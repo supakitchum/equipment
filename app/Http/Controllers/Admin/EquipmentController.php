@@ -115,7 +115,8 @@ class EquipmentController extends Controller
             'maintenance_date' => 'required|string',
             'maintenance_type' => 'required|string',
             'description' => 'string|nullable',
-            'equipment_state' => 'required'
+            'equipment_state' => 'required',
+            'serial' => 'required'
         ]);
         while (true) {
             $code = random_string();
@@ -131,7 +132,9 @@ class EquipmentController extends Controller
             'maintenance_date' => $validator['maintenance_date'],
             'maintenance_type' => $validator['maintenance_type'],
             'description' => $validator['description'],
-            'equipment_state' => $validator['equipment_state']
+            'equipment_state' => $validator['equipment_state'],
+            'serial' => $validator['serial'],
+
         ]);
         if ($create) {
             return redirect(route('admin.equipments.index'))->with([

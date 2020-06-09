@@ -7,7 +7,7 @@
                     <div class="card-header">
                         <div class="row">
                             <div class="col-lg-10">
-                                <h2 class="card-title">รายการครุภัณฑ์</h2>
+                                <h2 class="card-title">เพิ่มครุภัณฑ์</h2>
                             </div>
                             <div class="col-lg-2">
                                 <a href="{{ route('admin.equipments.index') }}" class="btn btn-primary w-100"><i
@@ -21,6 +21,16 @@
                         'method' => 'post',
                         'grid' => true,
                         'elements' => [
+                            [
+                                'col' => 'col-sm-12 col-lg-12',
+                                'tag' => 'input',
+                                'name' => 'serial',
+                                'id' => 'serial',
+                                'label' => 'รหัส',
+                                'type' => 'text',
+                                'placeholder' => '',
+                                'required' => true
+                            ],
                             [
                                 'col' => 'col-sm-12 col-lg-12',
                                 'tag' => 'input',
