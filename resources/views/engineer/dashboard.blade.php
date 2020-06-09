@@ -2,175 +2,146 @@
 @section('content')
     <div class="content">
         <div class="row">
-            <div class="col-lg-3 col-md-6 col-sm-6">
+            <div class="col-12 col-lg-4">
                 <div class="card card-stats">
                     <div class="card-body ">
                         <div class="row">
                             <div class="col-5 col-md-4">
                                 <div class="icon-big text-center icon-warning">
-                                    <i class="nc-icon nc-globe text-warning"></i>
+                                    <i class="fa fa-list text-primary"></i>
                                 </div>
                             </div>
                             <div class="col-7 col-md-8">
                                 <div class="numbers">
                                     <p class="card-category">จำนวนงานทั้งหมด</p>
-                                    <p class="card-title" id="quick1">-<p>
+                                    <p class="card-title" id="quick1">{{ $counts[0] }}<br>รายการ<p>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="card-footer ">
-                        <hr>
-                        <div class="stats">
-                            <i class="fa fa-refresh"></i>
-                            อัพเดทตอนนี้
-                        </div>
+
                     </div>
                 </div>
             </div>
-            <div class="col-lg-3 col-md-6 col-sm-6">
+            <div class="col-12 col-lg-4">
                 <div class="card card-stats">
                     <div class="card-body ">
                         <div class="row">
                             <div class="col-5 col-md-4">
                                 <div class="icon-big text-center icon-warning">
-                                    <i class="nc-icon nc-money-coins text-success"></i>
+                                    <i class="fa fa-warning text-warning"></i>
                                 </div>
                             </div>
                             <div class="col-7 col-md-8">
                                 <div class="numbers">
-                                    <p class="card-category">จำนวนงานที่ต้องทำ</p>
-                                    <p class="card-title" id="quick2">-<p>
+                                    <p class="card-category">จำนวนงานที่ยังไม่เสร็จ</p>
+                                    <p class="card-title" id="quick2">{{ $counts[1] }}<br>รายการ<p>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="card-footer ">
-                        <hr>
-                        <div class="stats">
-                            <i class="fa fa-calendar-o"></i>
-                            Last day
-                        </div>
+
                     </div>
                 </div>
             </div>
-            <div class="col-lg-3 col-md-6 col-sm-6">
+            <div class="col-12 col-lg-4">
                 <div class="card card-stats">
                     <div class="card-body ">
                         <div class="row">
                             <div class="col-5 col-md-4">
                                 <div class="icon-big text-center icon-warning">
-                                    <i class="nc-icon nc-vector text-danger"></i>
+                                    <i class="fa fa-check-circle text-success"></i>
                                 </div>
                             </div>
                             <div class="col-7 col-md-8">
                                 <div class="numbers">
                                     <p class="card-category">จำนวนงานที่เสร็จแล้ว</p>
-                                    <p class="card-title" id="quick3">-<p>
+                                    <p class="card-title" id="quick3">{{ $counts[2] }}<br>รายการ<p>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="card-footer ">
-                        <hr>
-                        <div class="stats">
-                            <i class="fa fa-clock-o"></i>
-                            In the last hour
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 col-sm-6">
-                <div class="card card-stats">
-                    <div class="card-body ">
-                        <div class="row">
-                            <div class="col-5 col-md-4">
-                                <div class="icon-big text-center icon-warning">
-                                    <i class="nc-icon nc-favourite-28 text-primary"></i>
-                                </div>
-                            </div>
-                            <div class="col-7 col-md-8">
-                                <div class="numbers">
-                                    <p class="card-category">จำนวนครุภัณฑ์ที่ถูกยืม</p>
-                                    <p class="card-title" id="quick4">-<p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-footer ">
-                        <hr>
-                        <div class="stats">
-                            <i class="fa fa-refresh"></i>
-                            Update now
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card ">
-                    <div class="card-header ">
-                        <h5 class="card-title">Users Behavior</h5>
-                        <p class="card-category">24 Hours performance</p>
-                    </div>
-                    <div class="card-body ">
-                        <canvas id=chartHours width="400" height="100"></canvas>
-                    </div>
-                    <div class="card-footer ">
-                        <hr>
-                        <div class="stats">
-                            <i class="fa fa-history"></i> Updated 3 minutes ago
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-4">
-                <div class="card ">
-                    <div class="card-header ">
-                        <h5 class="card-title">Email Statistics</h5>
-                        <p class="card-category">Last Campaign Performance</p>
-                    </div>
-                    <div class="card-body ">
-                        <canvas id="chartEmail"></canvas>
-                    </div>
-                    <div class="card-footer ">
-                        <div class="legend">
-                            <i class="fa fa-circle text-primary"></i> Opened
-                            <i class="fa fa-circle text-warning"></i> Read
-                            <i class="fa fa-circle text-danger"></i> Deleted
-                            <i class="fa fa-circle text-gray"></i> Unopened
-                        </div>
-                        <hr>
-                        <div class="stats">
-                            <i class="fa fa-calendar"></i> Number of emails sent
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-8">
-                <div class="card card-chart">
-                    <div class="card-header">
-                        <h5 class="card-title">NASDAQ: AAPL</h5>
-                        <p class="card-category">Line Chart with Points</p>
-                    </div>
-                    <div class="card-body">
-                        <canvas id="speedChart" width="400" height="100"></canvas>
                     </div>
                     <div class="card-footer">
-                        <div class="chart-legend">
-                            <i class="fa fa-circle text-info"></i> Tesla Model S
-                            <i class="fa fa-circle text-warning"></i> BMW 5 Series
-                        </div>
-                        <hr />
-                        <div class="card-stats">
-                            <i class="fa fa-check"></i> Data information certified
-                        </div>
+
                     </div>
                 </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+               <div class="card">
+                   <div class="card-header">
+                       <h3>งานที่ได้รับล่าสุด</h3>
+                   </div>
+                   <div class="card-body">
+                       <div class="table-responsive">
+                           <table class="table" id="dataTable">
+                               <thead>
+                               <th>ลำดับ</th>
+                               <th>ชื่องาน</th>
+                               <th>ชื่อครุภัณฑ์</th>
+                               <th>รหัสครุภัณฑ์</th>
+                               <th>วันที่กำหนด</th>
+                               <th>ได้รับมอบหมายเมื่อ</th>
+                               <th>รายละเอียด</th>
+                               <th></th>
+                               </thead>
+                               <tbody>
+                               @foreach($works as $index => $result)
+                                   @if($index < 5)
+                                       <tr>
+                                           <td>{{ $index + 1 }}</td>
+                                           <td>{{ $result->task_name }}</td>
+                                           <td>{{ $result->equipment_name }}</td>
+                                           <td>{{ $result->code }}</td>
+                                           <td>{{ $result->due_date }}</td>
+                                           <td>{{ $result->created_at }}</td>
+                                           <td>{{ $result->description }}</td>
+                                           <td>
+                                               <form id="submit-{{ $result->id }}"
+                                                     action="{{ route('engineer.tasks.update',['id' => $result->id]) }}"
+                                                     method="post">
+                                                   @csrf
+                                                   @method('put')
+                                               </form>
+                                               <button class="btn btn-success w-100"
+                                                       onclick="confirmForm('{{ $result->id }}')">
+                                                   <i class="fa fa-check-circle"></i>
+                                               </button>
+                                           </td>
+                                       </tr>
+                                   @endif
+                               @endforeach
+                               </tbody>
+                           </table>
+                           <a href="{{ route('engineer.tasks.index') }}" class="btn btn-info w-100"><i class="fa fa-list"></i> ดูงานทั้งหมด ({{sizeof($works) }})</a>
+                       </div>
+                   </div>
+               </div>
             </div>
         </div>
     </div>
+@endsection
+@section('script')
+{{--    @include('widget.dataTable',array('tables' => ['dataTable']))--}}
+<script>
+    function confirmForm(id) {
+        Swal.fire({
+            title: 'ยืนยันสถานะ',
+            text: "คุณซ่อมอุปกรณ์ชิ้นนี้เสร็จแล้ว ใช่หรือไม่?",
+            icon: 'info',
+            showCancelButton: true,
+            confirmButtonColor: '#28d06b',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'ใช่ ฉันซ่อมเสร็จแล้ว',
+            cancelButtonText: 'ไม่'
+        }).then((result) => {
+            if (result.value) {
+                document.getElementById('submit-' + id).submit();
+            }
+        })
+    }
+</script>
 @endsection

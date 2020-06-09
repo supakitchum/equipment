@@ -22,16 +22,16 @@ if (!function_exists('checkRole')) {
 if (!function_exists('equipmentState')) {
     function equipmentState($state){
         switch ($state){
-            case 0:
+            case '0':
                 return '<span class="badge badge-success">พร้อมใช้งาน</span>';
                 break;
-            case 1:
+            case '1':
                 return '<span class="badge badge-warning">ถูกใช้งานอยู่</span>';
                 break;
-            case 2:
+            case '2':
                 return '<span class="badge badge-danger">กำลังซ่อมบำรุง</span>';
                 break;
-            case 3:
+            case '3':
                 return '<span class="badge badge-danger">ไม่มีอุปกรณ์นี้แล้ว</span>';
                 break;
         }
@@ -69,6 +69,22 @@ if (!function_exists('reservingState')) {
                 break;
             case 4:
                 return '<span class="badge badge-warning text-uppercase">Transferring</span>';
+                break;
+            case 5:
+                return '<span class="badge badge-success text-uppercase">Return</span>';
+                break;
+        }
+    }
+}
+
+if (!function_exists('taskState')) {
+    function taskState($state){
+        switch ($state){
+            case 0:
+                return '<span class="badge badge-info text-uppercase">Pending</span>';
+                break;
+            case 1:
+                return '<span class="badge badge-success text-uppercase">Complete</span>';
                 break;
         }
     }
@@ -126,6 +142,18 @@ if (!function_exists('sendRejectNotification')) {
     function sendRejectNotification($user_id,$link){
         Notification::create([
             'type' => 'REJECT',
+            'user_id' => $user_id,
+            'message_id' => 5,
+            'status' => 0,
+            'link' => $link
+        ]);
+    }
+}
+
+if (!function_exists('sendRestoreNotification')) {
+    function sendRestoreNotification($user_id,$link){
+        Notification::create([
+            'type' => 'RETURN_CAL',
             'user_id' => $user_id,
             'message_id' => 5,
             'status' => 0,

@@ -21,6 +21,9 @@ Route::get('notification/{message_id}', 'NotificationController@read');
 Route::name('admin.')->prefix('admin')->group(function () {
     Route::resource('equipments', 'Admin\EquipmentController');
     Route::get('dataTable/equipments', 'Admin\EquipmentController@dataTable')->name('equipments.dataTable');
+    Route::get('equipment/reserved/{id}', 'Admin\EquipmentController@reserved')->name('equipments.reserved');
+    Route::post('equipment/restore', 'Admin\EquipmentController@restore')->name('equipments.restore');
+    Route::post('equipment/return', 'Admin\EquipmentController@return')->name('equipments.return');
     Route::resource('histories', 'Admin\HistoryController');
     Route::resource('members', 'Admin\MemberController');
     Route::resource('reserving', 'Admin\ReservingController');
@@ -34,8 +37,9 @@ Route::name('user.')->group(function () {
     Route::get('dataTable/equipments', 'User\EquipmentController@dataTable')->name('equipments.dataTable');
 });
 
-Route::name('engineer.')->group(function () {
-
+Route::name('engineer.')->prefix('engineer')->group(function () {
+    Route::resource('tasks', 'Engineer\TaskController');
+    Route::resource('histories', 'Engineer\HistoryController');
 });
 Route::auth();
 Route::get('/logout', function (){

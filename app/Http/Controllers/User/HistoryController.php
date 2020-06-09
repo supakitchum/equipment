@@ -23,7 +23,7 @@ class HistoryController extends Controller
         $results = ReservingTool::join('reserving_logs','reserving_tools.id','=','reserving_logs.reserving_id')
             ->leftjoin('equipments','reserving_tools.equipment_id','=','equipments.id')
             ->where('user_id',auth()->user()->id)
-            ->select('reserving_logs.approve_date','reserving_logs.transfer_date','reserving_logs.reject_date','reserving_logs.request_date','equipments.name as equipment_name','equipments.code','reserving_tools.reserving_state','reserving_tools.description')
+            ->select('reserving_logs.approve_date','reserving_logs.return_date','reserving_logs.return_reason','reserving_logs.transfer_date','reserving_logs.reject_date','reserving_logs.request_date','equipments.name as equipment_name','equipments.code','reserving_tools.reserving_state','reserving_tools.description')
             ->get();
         return view('user.history.index')->with(['results' => $results]);
     }

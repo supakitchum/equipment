@@ -22,7 +22,7 @@ class CreateEquipmentsTable extends Migration
             $table->integer('maintenance_date');
             $table->string('maintenance_type');
             $table->text('description');
-            $table->enum('equipment_state',[0,1,2,3]);
+            $table->enum('equipment_state',[0,1,2,3])->default(0);
             $table->timestamps();
         });
     }

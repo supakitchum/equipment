@@ -1,16 +1,9 @@
 <div class="sidebar" data-active-color="success">
     <div class="logo">
-        <a href="https://www.creative-tim.com" class="simple-text logo-mini">
-            <div class="logo-image-small">
-                <img src="https://cdn.clipart.email/3338ec30f5e26df7a820116a8a3acb89_download-your-logo-retulp-bus-stop-full-size-png-image-pngkit_2856-2856.png">
-            </div>
-            <!-- <p>CT</p> -->
-        </a>
         <a href="{{ route('home.index') }}" class="simple-text logo-normal">
-            WebSite Name
-            <!-- <div class="logo-image-big">
-              <img src="../assets/img/logo-big.png">
-            </div> -->
+            <div class="logo-image-big">
+                <img src="{{ asset('images/logo.jpg') }}">
+            </div>
         </a>
     </div>
     <div class="sidebar-wrapper">
@@ -47,7 +40,7 @@
                     </a>
                 </li>
             @elseif(checkRole('user'))
-                <li class="{{ isActive('home') }}">
+                <li class="{{ isActive('home') }}{{ isActive('/') }}">
                     <a href="{{ route('home.index') }}">
                         <i class="fa fa-tachometer"></i>
                         <p>หน้าแรก</p>
@@ -78,20 +71,20 @@
                     </a>
                 </li>
             @elseif(checkRole('engineer'))
-                <li class="{{ isActive('home') }}">
+                <li class="{{ isActive('home') }}{{ isActive('/') }}">
                     <a href="{{ route('home.index') }}">
                         <i class="fa fa-tachometer"></i>
                         <p>หน้าแรก</p>
                     </a>
                 </li>
-                <li class="{{ isActive('home') }}">
-                    <a href="{{ route('home.index') }}">
-                        <i class="fa fa-tachometer"></i>
+                <li class="{{ isActive('engineer/tasks*') }}">
+                    <a href="{{ route('engineer.tasks.index') }}">
+                        <i class="fa fa-list"></i>
                         <p>รายการงาน</p>
                     </a>
                 </li>
-                <li class="{{ isActive('home') }}">
-                    <a href="{{ route('home.index') }}">
+                <li class="{{ isActive('engineer/histories*') }}">
+                    <a href="{{ route('engineer.histories.index') }}">
                         <i class="fa fa-tachometer"></i>
                         <p>ประวัติ</p>
                     </a>

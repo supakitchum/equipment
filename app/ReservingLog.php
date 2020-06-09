@@ -11,6 +11,8 @@ class ReservingLog extends Model
         'approve_date',
         'transfer_date',
         'reject_date',
-        'request_date'
+        'request_date',
+        'return_date',
+        'return_reason'
     ];
 }

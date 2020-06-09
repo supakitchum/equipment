@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\TaskCalEquipment;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -23,7 +24,19 @@ class HomeController extends Controller
         } elseif (checkRole('user')) {
             return view('user.dashboard');
         } else{
-            return view('engineer.dashboard');
+            return view('engineer.dashboard')->with([
+                "counts" => [
+                    TaskCalEquipment::where('user_id',auth()->user()->id)->count(),
+                    TaskCalEquipment::where('user_id',auth()->user()->id)->where('state',0)->count(),
+                    TaskCalEquipment::where('user_id',auth()->user()->id)->where('state',1)->count(),
+                ],
+                "works" => TaskCalEquipment::leftjoin('equipments','task_cal_equipments.equipment_id','=','equipments.id')
+                    ->select('task_cal_equipments.*','equipments.name as equipment_name','equipments.code')
+                    ->where('user_id',auth()->user()->id)
+                    ->where('task_cal_equipments.state',0)
+                    ->orderBy('task_cal_equipments.created_at','desc')
+                    ->get()
+            ]);
         }
     }
 
@@ -34,7 +47,7 @@ class HomeController extends Controller
      */
     public function create()
     {
-        //
+        return redirect()->back();
     }
 
     /**
@@ -45,7 +58,7 @@ class HomeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return redirect()->back();
     }
 
     /**
@@ -56,7 +69,7 @@ class HomeController extends Controller
      */
     public function show($id)
     {
-        //
+        return redirect()->back();
     }
 
     /**
@@ -67,7 +80,7 @@ class HomeController extends Controller
      */
     public function edit($id)
     {
-        //
+        return redirect()->back();
     }
 
     /**
@@ -79,7 +92,7 @@ class HomeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        return redirect()->back();
     }
 
     /**
@@ -90,6 +103,6 @@ class HomeController extends Controller
      */
     public function destroy($id)
     {
-        //
+        return redirect()->back();
     }
 }
