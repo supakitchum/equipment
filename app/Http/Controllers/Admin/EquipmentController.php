@@ -239,7 +239,8 @@ class EquipmentController extends Controller
                 'maintenance_date' => 'required|string',
                 'maintenance_type' => 'required|string',
                 'description' => 'string|nullable',
-                'equipment_state' => 'required'
+                'equipment_state' => 'required',
+                'serial' => 'required'
             ]);
             $update = Equipment::find($id)->update($validator);
             if ($update) {
