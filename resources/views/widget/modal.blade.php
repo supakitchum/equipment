@@ -20,8 +20,8 @@
                                         data-dismiss="modal">{{ isset($cancelButtonText) ? $cancelButtonText:'ยกเลิก' }}</button>
                             @endif
                             @if(!isset($confirmButton) || $confirmButton)
-                                <button type="submit"
-                                        class="btn btn-primary">{{ isset($confirmButtonText) ? $confirmButtonText :'ยืนยัน' }}</button>
+                                <button type="submit" {{ isset($confirmButtonDisabled) && $confirmButtonDisabled ? 'disabled':'' }} {{ isset($confirmButtonId) && $confirmButtonId ? 'id='.$confirmButtonId:'' }}
+                                class="btn btn-primary">{{ isset($confirmButtonText) ? $confirmButtonText :'ยืนยัน' }}</button>
                             @endif
                         </div>
                     @endif
@@ -37,7 +37,7 @@
                                     data-dismiss="modal">{{ isset($cancelButtonText) ? $cancelButtonText:'ยกเลิก' }}</button>
                         @endif
                         @if(!isset($confirmButton) || $confirmButton)
-                            <button type="submit"
+                            <button type="submit" {{ isset($confirmButtonDisabled) && $confirmButtonDisabled ? 'disabled':'' }} {{ isset($confirmButtonId) && $confirmButtonId ? 'id='.$confirmButtonId:'' }}
                                     class="btn btn-primary">{{ isset($confirmButtonText) ? $confirmButtonText :'ยืนยัน' }}</button>
                         @endif
                     </div>

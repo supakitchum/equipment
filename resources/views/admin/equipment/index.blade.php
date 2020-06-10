@@ -171,7 +171,7 @@
         </div>
         <div class="form-group">
             <label for="code">รหัสครุภัณฑ์</label>
-            <input onchange="onchangeCode()" required class="form-control" type="text" id="return_code" name="code"/>
+            <input onchange="onchangeCode()" onmouseup="document.getElementById('return_code').select();" required class="form-control" type="text" id="return_code" name="code"/>
         </div>
         <div class="form-group">
             <label>ชื่อครุภัณฑ์</label>
@@ -194,6 +194,8 @@
         'id' => 'returnModal',
         'title' => '<b><i class="fa fa-rotate-right" aria-hidden="true"></i> คืนครุภัณฑ์</b>',
         'confirmButtonText' => 'บันทึก',
+        'confirmButtonId' => 'return-submit-btn',
+        'confirmButtonDisabled' => true,
         'form' => [
             'id' => 'return-form',
             'action' => route('admin.equipments.return'),
@@ -205,6 +207,12 @@
 @section('script')
     @include('widget.dataTable',array('tables' => ['dataTable'],'ajax' => route('admin.equipments.dataTable')))
     <script>
+        $("#return_code").keyup(function (event) {
+            if (event.keyCode === 13) {
+                getDetail($('#return_code').val());
+            }
+        })
+
         function nextStep(engineer_id, engineer_name) {
             $('#engineer_id').val(engineer_id);
             $('#step1').attr('class', 'col-12 d-none')
@@ -309,12 +317,12 @@
                         $('#return_category').val(data.result.category)
                         $('#return_type').val(data.result.type)
                         $('#return_equipment_id').val(data.result.id)
-                        if (data.result.equipment_state !== '0') {
-                            $('#status').html('<span class="badge badge-warning">ถูกใช้งานอยู่</span>')
-                            $('#submitButton').prop('disabled', true);
+                        if (data.result.equipment_state === '1') {
+                            $('#status').html('<span class="badge badge-success">คืนได้</span>')
+                            $('#return-submit-btn').prop('disabled', false);
                         } else {
-                            $('#status').html('<span class="badge badge-success">พร้อมใช้งาน</span>')
-                            $('#submitButton').prop('disabled', false);
+                            $('#status').html('<span class="badge badge-danger">ครุภัณฑ์นี้คืนไม่ได้</span>')
+                            $('#return-submit-btn').prop('disabled', true);
                         }
                     } else {
                         Swal.fire('ไม่พบข้อมูล', 'ไม่พบอุปกรณ์จากรหัสนี้', 'error')

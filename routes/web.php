@@ -17,6 +17,7 @@ Route::resource('home', 'HomeController');
 
 Route::resource('notifications', 'NotificationController');
 Route::get('notification/{message_id}', 'NotificationController@read');
+Route::get('notification/restore/{reserving_id}', 'NotificationController@restore')->name('notification.restore');
 
 Route::name('admin.')->prefix('admin')->group(function () {
     Route::resource('equipments', 'Admin\EquipmentController');

@@ -13,8 +13,6 @@ class Equipment extends Model
         'name',
         'category',
         'type',
-        'maintenance_date',
-        'maintenance_type',
         'description',
         'equipment_state'
     ];

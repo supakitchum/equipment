@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Equipment;
 use App\Notification;
+use App\ReservingTool;
 use Illuminate\Http\Request;
 
 class NotificationController extends Controller
@@ -112,5 +114,24 @@ class NotificationController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function restore($reserving_id)
+    {
+        $reserving = ReservingTool::find($reserving_id);
+        if ($reserving->user_id !== auth()->user()->id || $reserving->reserving_state !== '1'){
+            return redirect(route('notifications.index'))->with([
+                'status' => [
+                    'class' => 'danger',
+                    'message' => 'คุณไม่ได้ยืมครุภัณฑ์นี้อยู่'
+                ]
+            ]);
+        }
+
+        $equipment = Equipment::find($reserving->equipment_id);
+        return view('user.restore')->with([
+            'reserving' => $reserving,
+            'equipment' => $equipment
+        ]);
     }
 }

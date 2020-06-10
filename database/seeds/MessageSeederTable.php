@@ -31,5 +31,9 @@ class MessageSeederTable extends Seeder
             'id' => 5,
             'text' => 'คำร้องของท่านถูกปฎิเสธ'
         ]);
+        \App\Message::create([
+            'id' => 6,
+            'text' => 'คุณมีครุภัณฑ์ที่ถูกเรียกคืนเพื่อซ่อมบำรุง'
+        ]);
     }
 }

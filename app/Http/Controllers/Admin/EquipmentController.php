@@ -112,8 +112,6 @@ class EquipmentController extends Controller
             'name' => 'required|string',
             'category' => 'required|string',
             'type' => 'required|string',
-            'maintenance_date' => 'required|string',
-            'maintenance_type' => 'required|string',
             'description' => 'string|nullable',
             'equipment_state' => 'required',
             'serial' => 'required'
@@ -129,8 +127,6 @@ class EquipmentController extends Controller
             'name' => $validator['name'],
             'category' => $validator['category'],
             'type' => $validator['type'],
-            'maintenance_date' => $validator['maintenance_date'],
-            'maintenance_type' => $validator['maintenance_type'],
             'description' => $validator['description'],
             'equipment_state' => $validator['equipment_state'],
             'serial' => $validator['serial'],
@@ -236,8 +232,6 @@ class EquipmentController extends Controller
                 'name' => 'required|string',
                 'category' => 'required|string',
                 'type' => 'required|string',
-                'maintenance_date' => 'required|string',
-                'maintenance_type' => 'required|string',
                 'description' => 'string|nullable',
                 'equipment_state' => 'required',
                 'serial' => 'required'
@@ -300,8 +294,32 @@ class EquipmentController extends Controller
     }
 
     public function restore(Request $request){
-        $reserving = ReservingTool::find($request->reserving_id);
-        return $reserving;
+        try{
+            $reserving = ReservingTool::find($request->reserving_id);
+            if ($reserving->reserving_state !== '1'){
+                return redirect()->back()->withInput()->with([
+                    'status' => [
+                        'class' => 'danger',
+                        'message' => 'อุปกรณ์ที่คุณเรียกคืน ไม่ได้อยู่ในสถานะถูกยืม กรุณาตรวจสอบข้อมูลใหม่และลองอีกครั้ง'
+                    ]
+                ]);
+            }
+
+            sendRestoreNotification($reserving->user_id,route('notification.restore',['id' => $reserving->id]));
+            return redirect()->back()->with([
+                'status' => [
+                    'class' => 'success',
+                    'message' => 'ส่งข้อความเพื่อเรียกคืนอุปกรณ์สำเร็จ'
+                ]
+            ]);
+        } catch (\Exception $exception){
+            return redirect()->back()->withInput()->with([
+                'status' => [
+                    'class' => 'success',
+                    'message' => 'ส่งข้อความเพื่อเรียกคืนอุปกรณ์ไม่สำเร็จ กรุณาลองใหม่อีกครั้ง'
+                ]
+            ]);
+        }
     }
 
     public function return(Request $request){

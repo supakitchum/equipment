@@ -155,7 +155,7 @@ if (!function_exists('sendRestoreNotification')) {
         Notification::create([
             'type' => 'RETURN_CAL',
             'user_id' => $user_id,
-            'message_id' => 5,
+            'message_id' => 6,
             'status' => 0,
             'link' => $link
         ]);

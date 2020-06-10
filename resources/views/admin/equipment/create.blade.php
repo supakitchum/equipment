@@ -62,38 +62,6 @@
                                 'required' => true
                             ],
                             [
-                                'col' => 'col-sm-12 col-lg-6',
-                                'tag' => 'input',
-                                'name' => 'maintenance_date',
-                                'id' => 'maintenance_date',
-                                'label' => 'วันที่ปิดปรับปรุง',
-                                'type' => 'text',
-                                'placeholder' => '',
-                                'required' => false
-                            ],
-                            [
-                                'col' => 'col-sm-12 col-lg-6',
-                                'tag' => 'select',
-                                'name' => 'maintenance_type',
-                                'id' => 'maintenance_type',
-                                'label' => 'ประเภทปิดปรับปรุง',
-                                'options' => [
-                                    [
-                                        'value' => 'วัน',
-                                        'text' => 'วัน'
-                                    ],
-                                    [
-                                        'value' => 'เดือน',
-                                        'text' => 'เดือน'
-                                    ],
-                                    [
-                                        'value' => 'ปี',
-                                        'text' => 'ปี'
-                                    ]
-                                ],
-                                'required' => false
-                            ],
-                            [
                                 'col' => 'col-sm-12 col-lg-12',
                                 'tag' => 'select',
                                 'name' => 'equipment_state',
