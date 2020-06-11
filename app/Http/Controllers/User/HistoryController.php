@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Equipment;
 use App\ReservingLog;
 use App\ReservingTool;
 use Illuminate\Http\Request;
@@ -57,7 +58,20 @@ class HistoryController extends Controller
      */
     public function show($id)
     {
-        //
+        $reserving = ReservingTool::find($id);
+        if ($reserving->user_id !== auth()->user()->id){
+            return redirect(route('notifications.index'))->with([
+                'status' => [
+                    'class' => 'danger',
+                    'message' => 'ไม่พบข้อมูล'
+                ]
+            ]);
+        }
+        $equipment = Equipment::find($reserving->equipment_id);
+        return view('user.history.show')->with([
+            'reserving' => $reserving,
+            'equipment' => $equipment
+        ]);
     }
 
     /**
