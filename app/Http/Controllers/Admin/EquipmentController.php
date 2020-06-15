@@ -305,6 +305,9 @@ class EquipmentController extends Controller
                 ]);
             }
 
+            $reserving->update([
+                'restore_state' => 1
+            ]);
             sendRestoreNotification($reserving->user_id,route('notification.restore',['id' => $reserving->id]));
             return redirect()->back()->with([
                 'status' => [
@@ -332,7 +335,8 @@ class EquipmentController extends Controller
                 'equipment_state' => '0'
             ]);
             ReservingTool::find($reserving->id)->update([
-                'reserving_state' => '5'
+                'reserving_state' => '5',
+                'restore' => 0
             ]);
 
             ReservingLog::where('reserving_id',$reserving->id)->update([

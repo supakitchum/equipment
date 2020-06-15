@@ -12,7 +12,7 @@
 <!-- Control Center for Now Ui Dashboard: parallax effects, scripts for the example pages etc -->
 <script src="{{ asset('js/paper-dashboard.min.js') }}"
         type="text/javascript"></script><!-- Paper Dashboard DEMO methods, don't include it in your project! -->
-<script src="{{ asset('demo/demo.js') }}"></script>
+{{--<script src="{{ asset('demo/demo.js') }}"></script>--}}
 <script src="{{ asset('js/jsQR.js') }}"></script>
 <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
@@ -23,6 +23,14 @@
         demo.initChartsPages();
     });
 
+    function readNotification(id,href) {
+        $.get('/notification/'+id, function (data, status) {
+            if (data.code === 0) {
+                window.location.assign(href)
+            }
+        });
+    }
+
     function getNotification() {
         $.get('/notifications/create', function (data, status) {
             if (data.code === 0) {
@@ -30,10 +38,10 @@
                     count = data.result.unread;
                     $('#unread_count').text(data.result.unread)
                     data.result.messages.forEach((message) => {
-                        if (message.status == 0){
-                            $('#notification_messages').append(`<a class="dropdown-item" href="${message.link}">${message.text}<br><small class="text-gray">${message.created_at}</small></a>`)
+                        if (message.status === 0){
+                            $('#notification_messages').append(`<a href="#" class="dropdown-item" style="background-color: #f1f1f1;" onclick="readNotification(${message.id},'${message.link}')">${message.text}<br><small class="text-dark">${message.created_at}</small></a>`)
                         }else{
-                            $('#notification_messages').append(`<a class="dropdown-item bg-primary" href="${message.link}">${message.text}<br><small class="text-gray">${message.created_at}</small></a>`)
+                            $('#notification_messages').append(`<a class="dropdown-item" href="${message.link}">${message.text}<br><small class="text-dark">${message.created_at}</small></a>`)
                         }
                     })
                     $('#notification_messages').append(`<a class="dropdown-item text-center" style="padding-right: 15px" href="/notifications">ดูแจ้งเตือนทั้งหมด</a>`)

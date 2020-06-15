@@ -68,10 +68,17 @@ class HistoryController extends Controller
             ]);
         }
         $equipment = Equipment::find($reserving->equipment_id);
-        return view('user.history.show')->with([
-            'reserving' => $reserving,
-            'equipment' => $equipment
-        ]);
+        if ($reserving->reserving_state == 1){
+            return view('user.history.show')->with([
+                'reserving' => $reserving,
+                'equipment' => $equipment
+            ]);
+        }else{
+            return view('user.history.reject')->with([
+                'reserving' => $reserving,
+                'equipment' => $equipment
+            ]);
+        }
     }
 
     /**

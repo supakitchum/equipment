@@ -30,7 +30,7 @@ class NotificationController extends Controller
         ]);
     }
     /**
-     * Display a listing of the resource.
+     * Display a listing of t
      *
      * @return \Illuminate\Http\Response
      */
@@ -40,6 +40,7 @@ class NotificationController extends Controller
             'results' => Notification::join('messages','notifications.message_id','=','messages.id')
                 ->select('notifications.*','messages.text')
                 ->where('user_id',auth()->user()->id)
+                ->orderBy('id','desc')
                 ->get()
         ]);
     }
@@ -55,7 +56,12 @@ class NotificationController extends Controller
             'code' => 0,
             'result' => [
                 'unread' => Notification::where('user_id',auth()->user()->id)->where('status',0)->count(),
-                'messages' => Notification::messages()
+                'messages' => Notification::join('messages','notifications.message_id','=','messages.id')
+                    ->select('notifications.*','messages.text')
+                    ->where('user_id',auth()->user()->id)
+                    ->limit(10)
+                    ->orderBy('id','desc')
+                    ->get()
             ]
         ]);
     }

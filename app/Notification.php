@@ -14,10 +14,4 @@ class Notification extends Model
         'link'
     ];
 
-    static public function messages(){
-        return Notification::join('messages','notifications.message_id','=','messages.id')
-            ->where('user_id',auth()->user()->id)
-            ->limit(10)
-            ->get();
-    }
 }

@@ -11,6 +11,7 @@ class ReservingTool extends Model
         'equipment_id',
         'approved_by',
         'reserving_state',
-        'description'
+        'description',
+        'restore_state'
     ];
 }

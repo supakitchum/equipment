@@ -18,7 +18,7 @@ class CreateNotificationsTable extends Migration
             $table->string('type');
             $table->integer('user_id');
             $table->integer('message_id');
-            $table->boolean('status');
+            $table->boolean('status')->default(0);
             $table->timestamps();
         });
     }

@@ -18,10 +18,12 @@
                             <th>ลำดับ</th>
                             <th>ชื่อผู้ร้อง</th>
                             <th>ชื่ออุปกรณ์</th>
-                            <th>รายละเอียด</th>
                             <th>สถานะ</th>
                             <th>ร้องขอเมื่อ</th>
                             <th>อนุมัติเมื่อ</th>
+                            @if(checkRole('superadmin'))
+                                <th>ผู้อนุมัติ</th>
+                            @endif
                             <th>ส่งต่อเมื่อ</th>
                             <th>คืนเมื่อ</th>
                             <th>เหตุผลการคืน</th>
@@ -33,10 +35,12 @@
                                 <td>{{ $index + 1 }}</td>
                                 <td>{{ $result->username }}</td>
                                 <td>{{ $result->equipment_name?: '-' }}</td>
-                                <td>{!! $result->description !!}</td>
                                 <td>{!! reservingState($result->reserving_state) !!}</td>
                                 <td>{{ $result->request_date?:'-' }}</td>
                                 <td>{{ $result->approve_date ?:'-' }}</td>
+                                @if(checkRole('superadmin'))
+                                    <td>{{ $result->admin_name }}</td>
+                                @endif
                                 <td>{{ $result->transfer_date ?:'-' }}</td>
                                 <td>{{ $result->return_date ?:'-' }}</td>
                                 <td>{{ $result->return_reason ?:'-' }}</td>

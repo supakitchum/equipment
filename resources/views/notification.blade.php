@@ -22,7 +22,11 @@
                                 <td>{{ $result->created_at }}</td>
                                 <td>{{ $result->text }}</td>
                                 <td>
-                                    <a href="{{ $result->link }}">{{ $result->link }}</a>
+                                    @if($result->status == 1)
+                                        <a href="{{ $result->link }}">{{ $result->link }}</a>
+                                    @else
+                                        <a href="#" onclick="readNotification({{ $result->id }},'{{ $result->link }}')">{{ $result->link }}</a>
+                                    @endif
                                 </td>
                                 <td>{{ $result->status == 1 ? 'อ่านแล้ว' : 'ยังไม่ได้อ่าน' }}</td>
                             </tr>
@@ -35,5 +39,28 @@
     </div>
 @endsection
 @section('script')
-    @include('widget.dataTable',array('tables' => ['dataTable']))
+    <script>
+        $(document).ready(function () {
+            $('#dataTable').dataTable({
+                "responsive": true,
+                "language": {
+                    "lengthMenu": "แสดง _MENU_ รายการ ต่อหน้า",
+                    "loadingRecords": "กำลังดาวน์โหลดข้อมูล",
+                    "zeroRecords": "ไม่พบข้อมูล",
+                    "info": "แสดงรายการที่ _START_ ถึง _END_ จาก _TOTAL_ รายการ",
+                    "infoEmpty": "แสดงรายการที่ 0 ถึง 0 ของ 0 รายการ",
+                    "infoFiltered": "(จากรายการทั้งหมด _MAX_ รายการ)",
+                    "search": "ค้นหา :",
+                    "paginate": {
+                        "first": "อันแรก",
+                        "last": "สุดท้าย",
+                        "next": "ถัดไป",
+                        "previous": "ก่อนหน้า"
+                    }
+                },
+                "order": [[ 0, "desc" ]]
+            });
+        });
+    </script>
+
 @endsection

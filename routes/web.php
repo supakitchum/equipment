@@ -16,6 +16,9 @@ Route::get('/', 'HomeController@index');
 Route::resource('home', 'HomeController');
 
 Route::resource('notifications', 'NotificationController');
+Route::get('profile', 'ProfileController@index')->name('profile.index');
+Route::put('profile/password', 'ProfileController@changePassword')->name('profile.changePassword');
+Route::put('profile/detail', 'ProfileController@changeProfile')->name('profile.changeProfile');
 Route::get('notification/{message_id}', 'NotificationController@read');
 Route::get('notification/restore/{reserving_id}', 'NotificationController@restore')->name('notification.restore');
 

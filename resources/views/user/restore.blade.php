@@ -3,7 +3,9 @@
     <div class="content">
         <div class="card">
             <div class="card-header">
-                <h3><i class="fa fa-rotate-right"></i> ครุภัณฑ์นี้ถูกเรียกคืนเพื่อซ่อมบำรุง</h3>
+                <div class="alert alert-warning text-center">
+                    <h3 class="p-0 m-0"><i class="fa fa-warning"></i> กรุณานำครุภัณฑ์นี้ไปคืนเพื่อซ่อมบำรุง</h3>
+                </div>
             </div>
             <div class="card-body">
                 <div class="row">

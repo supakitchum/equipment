@@ -13,8 +13,8 @@
                             </div>
                             <div class="col-7 col-md-8">
                                 <div class="numbers">
-                                    <p class="card-category">จำนวนสมาชิก</p>
-                                    <p class="card-title" id="quick1">-<p>
+                                    <p class="card-category">จำนวนคำร้องขอยืม</p>
+                                    <p class="card-title" id="quick1">{{ $counts[0] }}<p>
                                 </div>
                             </div>
                         </div>
@@ -39,8 +39,8 @@
                             </div>
                             <div class="col-7 col-md-8">
                                 <div class="numbers">
-                                    <p class="card-category">จำนวนครุภัณฑ์</p>
-                                    <p class="card-title" id="quick2">-<p>
+                                    <p class="card-category">ครุภัณฑ์ที่ยืมอยู่</p>
+                                    <p class="card-title" id="quick2">{{ $counts[1] }}<p>
                                 </div>
                             </div>
                         </div>
@@ -65,8 +65,8 @@
                             </div>
                             <div class="col-7 col-md-8">
                                 <div class="numbers">
-                                    <p class="card-category">คำร้องขอรออนุมัติ</p>
-                                    <p class="card-title" id="quick3">-<p>
+                                    <p class="card-category">คำร้องรออนุมัติ</p>
+                                    <p class="card-title" id="quick3">{{ $counts[2] }}<p>
                                 </div>
                             </div>
                         </div>
@@ -91,8 +91,8 @@
                             </div>
                             <div class="col-7 col-md-8">
                                 <div class="numbers">
-                                    <p class="card-category">จำนวนครุภัณฑ์ที่ถูกยืม</p>
-                                    <p class="card-title" id="quick4">-<p>
+                                    <p class="card-category">ครุภัณฑ์ที่ถูกเรียกคืน</p>
+                                    <p class="card-title" id="quick4">{{ $counts[3] }}<p>
                                 </div>
                             </div>
                         </div>
@@ -111,66 +111,78 @@
             <div class="col-md-12">
                 <div class="card ">
                     <div class="card-header ">
-                        <h5 class="card-title">Users Behavior</h5>
-                        <p class="card-category">24 Hours performance</p>
+                        <h5 class="card-title">รายการครุภัณฑ์ที่ถูกเรียกคืน</h5>
                     </div>
                     <div class="card-body ">
-                        <canvas id=chartHours width="400" height="100"></canvas>
-                    </div>
-                    <div class="card-footer ">
-                        <hr>
-                        <div class="stats">
-                            <i class="fa fa-history"></i> Updated 3 minutes ago
+                        <div class="table-responsive">
+                            <table class="table" id="dataTable1">
+                                <thead>
+                                <th>ลำดับ</th>
+                                <th>ชื่อ</th>
+                                <th>เลขครุภัณฑ์</th>
+                                <th>รหัสครุภัณฑ์</th>
+                                <th>หมวดหมู่</th>
+                                <th>ประเภท</th>
+                                <th>รายละเอียด</th>
+                                </thead>
+                                <tbody>
+                                @foreach($restores as $index=>$result)
+                                    <tr>
+                                        <td>{{ $index + 1 }}</td>
+                                        <td>{{ $result->name }}</td>
+                                        <td>{{ $result->code }}</td>
+                                        <td>{{ $result->serial }}</td>
+                                        <td>{{ $result->category }}</td>
+                                        <td>{{ $result->type }}</td>
+                                        <td>{{ $result->description }}</td>
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-12">
                 <div class="card ">
                     <div class="card-header ">
-                        <h5 class="card-title">Email Statistics</h5>
-                        <p class="card-category">Last Campaign Performance</p>
+                        <h5 class="card-title">รายการครุภัณฑ์ที่คุณยืมอยู่</h5>
                     </div>
                     <div class="card-body ">
-                        <canvas id="chartEmail"></canvas>
-                    </div>
-                    <div class="card-footer ">
-                        <div class="legend">
-                            <i class="fa fa-circle text-primary"></i> Opened
-                            <i class="fa fa-circle text-warning"></i> Read
-                            <i class="fa fa-circle text-danger"></i> Deleted
-                            <i class="fa fa-circle text-gray"></i> Unopened
-                        </div>
-                        <hr>
-                        <div class="stats">
-                            <i class="fa fa-calendar"></i> Number of emails sent
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-8">
-                <div class="card card-chart">
-                    <div class="card-header">
-                        <h5 class="card-title">NASDAQ: AAPL</h5>
-                        <p class="card-category">Line Chart with Points</p>
-                    </div>
-                    <div class="card-body">
-                        <canvas id="speedChart" width="400" height="100"></canvas>
-                    </div>
-                    <div class="card-footer">
-                        <div class="chart-legend">
-                            <i class="fa fa-circle text-info"></i> Tesla Model S
-                            <i class="fa fa-circle text-warning"></i> BMW 5 Series
-                        </div>
-                        <hr />
-                        <div class="card-stats">
-                            <i class="fa fa-check"></i> Data information certified
+                        <div class="table-responsive">
+                            <table class="table" id="dataTable2">
+                                <thead>
+                                <th>ลำดับ</th>
+                                <th>ชื่อ</th>
+                                <th>เลขครุภัณฑ์</th>
+                                <th>รหัสครุภัณฑ์</th>
+                                <th>หมวดหมู่</th>
+                                <th>ประเภท</th>
+                                <th>รายละเอียด</th>
+                                </thead>
+                                <tbody>
+                                @foreach($reserving as $index=>$result)
+                                    <tr>
+                                        <td>{{ $index + 1 }}</td>
+                                        <td>{{ $result->name }}</td>
+                                        <td>{{ $result->code }}</td>
+                                        <td>{{ $result->serial }}</td>
+                                        <td>{{ $result->category }}</td>
+                                        <td>{{ $result->type }}</td>
+                                        <td>{{ $result->description }}</td>
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+@endsection
+@section('script')
+    @include('widget.dataTable',array('tables' => ['dataTable1','dataTable2']))
 @endsection

@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Equipment;
+use App\ReservingTool;
 use App\TaskCalEquipment;
+use App\User;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -20,9 +23,30 @@ class HomeController extends Controller
     public function index()
     {
         if (checkRole('superadmin') || checkRole('admin')) {
-            return view('admin.dashboard');
+            $countEquipment = Equipment::all()->count();
+            $reservedEquipment = Equipment::where('equipment_state','1')->count();
+            return view('admin.dashboard')->with([
+                "counts" => [
+                    $countEquipment,
+                    $countEquipment-$reservedEquipment,
+                    ReservingTool::where('reserving_state','0')->count(),
+                    $reservedEquipment
+                ],
+                "reserving" => ReservingTool::where('reserving_state','=','0')->whereNull('approved_by')->get()
+            ]);
         } elseif (checkRole('user')) {
-            return view('user.dashboard');
+            $reserving = ReservingTool::leftjoin('equipments','reserving_tools.equipment_id','=','equipments.id')->where('user_id',auth()->user()->id)->where('reserving_state','1');
+            $restore = ReservingTool::leftjoin('equipments','reserving_tools.equipment_id','=','equipments.id')->where('user_id',auth()->user()->id)->where('reserving_tools.restore_state',1);
+            return view('user.dashboard')->with([
+                "counts" => [
+                    ReservingTool::where('reserving_state','0')->where('user_id',auth()->user()->id)->count(),
+                    $reserving->count(),
+                    ReservingTool::where('reserving_state','0')->where('approved_by',auth()->user()->id)->count(),
+                    $restore->count(),
+                ],
+                "restores" => $restore->get(),
+                "reserving" => $reserving->get()
+            ]);
         } else{
             return view('engineer.dashboard')->with([
                 "counts" => [
