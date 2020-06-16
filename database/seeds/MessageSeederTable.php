@@ -17,7 +17,7 @@ class MessageSeederTable extends Seeder
         ]);
         \App\Message::create([
             'id' => 2,
-            'text' => 'ครุภัณฑ์ที่ท่านยืมอยู่ ถึงเวลาบำรุงรักษาแล้ว กรุณาส่งคืน'
+            'text' => 'คุณได้รับงานซ่อมบำรุงครุภัณฑ์ใหม่'
         ]);
         \App\Message::create([
             'id' => 3,
