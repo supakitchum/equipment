@@ -212,6 +212,7 @@ class EquipmentController extends Controller
                     'complete_date' => null
                 ]);
                 DB::commit();
+                sendAlertNotification($validator['engineer_id'],route('engineer.tasks.show',['id' => $new_task->id]));
                 return redirect()->back()->with([
                     'status' => [
                         'class' => 'success',

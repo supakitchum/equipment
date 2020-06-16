@@ -39,7 +39,12 @@ class TaskController extends Controller
      */
     public function create()
     {
-        return redirect()->back();
+        return redirect(route('engineer.tasks.index'))->with([
+            'status' => [
+                'class' => 'danger',
+                'message' => 'ไม่พบข้อมูล'
+            ]
+        ]);
     }
 
     /**
@@ -61,7 +66,30 @@ class TaskController extends Controller
      */
     public function show($id)
     {
-        return redirect()->back();
+        try{
+            $task = TaskCalEquipment::find($id);
+            if ($task->user_id !== auth()->user()->id){
+                return redirect(route('engineer.tasks.index'))->with([
+                    'status' => [
+                        'class' => 'danger',
+                        'message' => 'ไม่พบข้อมูล'
+                    ]
+                ]);
+            }
+
+            $equipment = Equipment::find($task->equipment_id);
+            return view('engineer.task.show')->with([
+                'task' => $task,
+                'equipment' => $equipment
+            ]);
+        }catch (\Exception $exception){
+            return redirect(route('engineer.tasks.index'))->with([
+                'status' => [
+                    'class' => 'danger',
+                    'message' => 'ไม่พบข้อมูล'
+                ]
+            ]);
+        }
     }
 
     /**
@@ -72,7 +100,12 @@ class TaskController extends Controller
      */
     public function edit($id)
     {
-        return redirect()->back();
+        return redirect(route('engineer.tasks.index'))->with([
+            'status' => [
+                'class' => 'danger',
+                'message' => 'ไม่พบข้อมูล'
+            ]
+        ]);
     }
 
     /**
@@ -123,6 +156,11 @@ class TaskController extends Controller
      */
     public function destroy($id)
     {
-        return redirect()->back();
+        return redirect(route('engineer.tasks.index'))->with([
+            'status' => [
+                'class' => 'danger',
+                'message' => 'ไม่พบข้อมูล'
+            ]
+        ]);
     }
 }
