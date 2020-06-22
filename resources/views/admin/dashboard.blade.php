@@ -108,6 +108,51 @@
             </div>
         </div>
         <div class="row">
+            @if(checkRole('superadmin'))
+                <div class="col-md-12">
+                    <div class="card ">
+                        <div class="card-header ">
+                            <div class="row">
+                                <div class="col-12 col-lg-6">
+                                    <h5 class="card-title">รายการครุภัณฑ์ที่ถูกยืม</h5>
+                                </div>
+                                <div class="col-12 col-lg-6">
+                                    <div class="row">
+                                        <div class="col-6 text-right">
+                                            <label for="filter" class="mt-3">กรองโดยรายชื่อสมาชิก :</label>
+                                        </div>
+                                        <div class="col-6">
+                                            <select onchange="getData()" style="background-color: #FFFFFF !important;"  class="selectpicker form-control p-0 m-0 show-tick" data-live-search="true" id="filter">
+                                                <option value="0" selected>ทั้งหมด</option>
+                                                @foreach($users as $user)
+                                                    <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body ">
+                            <div class="table-responsive">
+                                <table class="table" id="dataTable">
+                                    <thead>
+                                    <th>ลำดับ</th>
+                                    <th>ชื่อครุภัณฑ์</th>
+                                    <th>เลขครุภัณฑ์</th>
+                                    <th>รหัสครุภัณฑ์</th>
+                                    <th>สถานะ</th>
+                                    <th>ผู้ยืม</th>
+                                    <th>ยืมไปแล้ว</th>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endif
             <div class="col-md-12">
                 <div class="card ">
                     <div class="card-header ">
@@ -115,7 +160,7 @@
                     </div>
                     <div class="card-body ">
                         <div class="table-responsive">
-                            <table class="table" id="dataTable">
+                            <table class="table" id="last_reserving_table">
                                 <thead>
                                 <th>ลำดับ</th>
                                 <th>รายละเอียดคำร้อง</th>
@@ -125,43 +170,6 @@
                                 <th></th>
                                 </thead>
                                 <tbody>
-                                @foreach($reserving as $index => $result)
-                                    @if($index < 10)
-                                        <tr>
-                                            <td>{{ $index + 1 }}</td>
-                                            <td>{!! $result->description !!}</td>
-                                            <td>{!! reservingState((int)$result->reserving_state) !!}</td>
-                                            <td>{{ $result->created_at }}</td>
-                                            <td>{{ $result->updated_at }}</td>
-                                            <td>
-                                                <div class="row">
-                                                    <div class="col-12 mb-1">
-                                                        <button data-toggle="modal"
-                                                                data-reserving_id="{{ $result->id }}"
-                                                                data-target="#exampleModal"
-                                                                class="btn btn-success w-100"><i
-                                                                class="fa fa-check"></i><br>ยอมรับ
-                                                        </button>
-                                                    </div>
-                                                    <div class="col-12">
-                                                        <form
-                                                            action="{{ route('admin.reserving.update',['id' => $result->id]) }}"
-                                                            method="post">
-                                                            @csrf
-                                                            @method('PUT')
-                                                            <input type="hidden" id="reserving_id" name="reserving_id"
-                                                                   value="{{ $result->id }}">
-                                                            <button name="method" value="1"
-                                                                    class="btn btn-danger w-100"><i
-                                                                    class="fa fa-close"></i><br>ปฎิเสธ
-                                                            </button>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    @endif
-                                @endforeach
                                 </tbody>
                             </table>
                             @if(sizeof($reserving) > 10)
@@ -235,7 +243,83 @@
     </div>
 @endsection
 @section('script')
-    @include('widget.dataTable',array('tables' => ['dataTable']))
+    <script>
+        var last_table = $('#last_reserving_table').DataTable({
+            "responsive": true,
+            "language": {
+                "lengthMenu": "แสดง _MENU_ รายการ ต่อหน้า",
+                "loadingRecords": "กำลังดาวน์โหลดข้อมูล",
+                "zeroRecords": "ไม่พบข้อมูล",
+                "info": "แสดงรายการที่ _START_ ถึง _END_ จาก _TOTAL_ รายการ",
+                "infoEmpty": "แสดงรายการที่ 0 ถึง 0 ของ 0 รายการ",
+                "infoFiltered": "(จากรายการทั้งหมด _MAX_ รายการ)",
+                "search": "ค้นหา :",
+                "paginate": {
+                    "first": "อันแรก",
+                    "last": "สุดท้าย",
+                    "next": "ถัดไป",
+                    "previous": "ก่อนหน้า"
+                }
+            },
+            "ajax": '{{ route('dataTable.dashboard.reserving',['uid' => auth()->user()->id]) }}'
+        });
+
+        setInterval(function () {
+            last_table.ajax.reload()
+        },5000)
+
+        var apiUrl = '{{ route('dataTable.dashboard.reserved') }}'
+        var table_reserved;
+        var start = true;
+        function getData() {
+            var uid = $('#filter').val()
+            console.log(uid)
+            if (start) {
+                table_reserved = $('#dataTable').DataTable({
+                    "responsive": true,
+                    "language": {
+                        "lengthMenu": "แสดง _MENU_ รายการ ต่อหน้า",
+                        "loadingRecords": "กำลังดาวน์โหลดข้อมูล",
+                        "zeroRecords": "ไม่พบข้อมูล",
+                        "info": "แสดงรายการที่ _START_ ถึง _END_ จาก _TOTAL_ รายการ",
+                        "infoEmpty": "แสดงรายการที่ 0 ถึง 0 ของ 0 รายการ",
+                        "infoFiltered": "(จากรายการทั้งหมด _MAX_ รายการ)",
+                        "search": "ค้นหา :",
+                        "paginate": {
+                            "first": "อันแรก",
+                            "last": "สุดท้าย",
+                            "next": "ถัดไป",
+                            "previous": "ก่อนหน้า"
+                        }
+                    },
+                    "ajax": uid == 0 ? apiUrl : apiUrl + `?filter=${uid}`
+                });
+                start = false;
+            }else{
+                table_reserved.destroy();
+                table_reserved = $('#dataTable').DataTable({
+                    "responsive": true,
+                    "language": {
+                        "lengthMenu": "แสดง _MENU_ รายการ ต่อหน้า",
+                        "loadingRecords": "กำลังดาวน์โหลดข้อมูล",
+                        "zeroRecords": "ไม่พบข้อมูล",
+                        "info": "แสดงรายการที่ _START_ ถึง _END_ จาก _TOTAL_ รายการ",
+                        "infoEmpty": "แสดงรายการที่ 0 ถึง 0 ของ 0 รายการ",
+                        "infoFiltered": "(จากรายการทั้งหมด _MAX_ รายการ)",
+                        "search": "ค้นหา :",
+                        "paginate": {
+                            "first": "อันแรก",
+                            "last": "สุดท้าย",
+                            "next": "ถัดไป",
+                            "previous": "ก่อนหน้า"
+                        }
+                    },
+                    "ajax": uid == 0 ? apiUrl : apiUrl + `?filter=${uid}`
+                });
+            }
+        }
+        getData()
+    </script>
     <script>
         var video = document.createElement("video");
         var canvasElement = document.getElementById("canvas");

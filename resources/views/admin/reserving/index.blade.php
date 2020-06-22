@@ -18,43 +18,6 @@
                                 <th>อัพเดทล่าสุดเมื่อ</th>
                                 <th></th>
                                 </thead>
-                                <tbody>
-                                @foreach($results as $index => $result)
-                                    <tr>
-                                        <td>{{ $index + 1 }}</td>
-                                        <td>{!! $result->description !!}</td>
-                                        <td>{!! reservingState((int)$result->reserving_state) !!}</td>
-                                        <td>{{ $result->created_at }}</td>
-                                        <td>{{ $result->updated_at }}</td>
-                                        <td>
-                                            <div class="row">
-                                                <div class="col-12 mb-1">
-                                                    <button data-toggle="modal"
-                                                            data-reserving_id="{{ $result->id }}"
-                                                            data-target="#exampleModal"
-                                                            class="btn btn-success w-100"><i
-                                                            class="fa fa-check"></i><br>ยอมรับ
-                                                    </button>
-                                                </div>
-                                                <div class="col-12">
-                                                    <form
-                                                        action="{{ route('admin.reserving.update',['id' => $result->id]) }}"
-                                                        method="post">
-                                                        @csrf
-                                                        @method('PUT')
-                                                        <input type="hidden" id="reserving_id" name="reserving_id"
-                                                               value="{{ $result->id }}">
-                                                        <button name="method" value="1"
-                                                                class="btn btn-danger w-100"><i
-                                                                class="fa fa-close"></i><br>ปฎิเสธ
-                                                        </button>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                                </tbody>
                             </table>
                         </div>
                     </div>
@@ -99,7 +62,8 @@
                         </div>
                         <div class="form-group">
                             <label for="code">รหัสครุภัณฑ์</label>
-                            <input onchange="onchangeCode()" onmouseup="document.getElementById('code').select();" class="form-control" type="text" id="code" name="code"/>
+                            <input onchange="onchangeCode()" onmouseup="document.getElementById('code').select();"
+                                   class="form-control" type="text" id="code" name="code"/>
                         </div>
                         <div class="form-group">
                             <label>ชื่อครุภัณฑ์</label>
@@ -124,8 +88,32 @@
     </div>
 @endsection
 @section('script')
-    @include('widget.dataTable',array('tables' => ['dataTable']))
     <script>
+        $(document).ready(function () {
+            var table1 = $('#dataTable').DataTable({
+                "responsive": true,
+                "language": {
+                    "lengthMenu": "แสดง _MENU_ รายการ ต่อหน้า",
+                    "loadingRecords": "กำลังดาวน์โหลดข้อมูล",
+                    "zeroRecords": "ไม่พบข้อมูล",
+                    "info": "แสดงรายการที่ _START_ ถึง _END_ จาก _TOTAL_ รายการ",
+                    "infoEmpty": "แสดงรายการที่ 0 ถึง 0 ของ 0 รายการ",
+                    "infoFiltered": "(จากรายการทั้งหมด _MAX_ รายการ)",
+                    "search": "ค้นหา :",
+                    "paginate": {
+                        "first": "อันแรก",
+                        "last": "สุดท้าย",
+                        "next": "ถัดไป",
+                        "previous": "ก่อนหน้า"
+                    }
+                },
+                "ajax": '{{ route('admin.reserving.dataTable') }}'
+            });
+
+            var reloadLoop = setInterval(function () {
+                table1.ajax.reload();
+            }, 5000);
+        });
         var video = document.createElement("video");
         var canvasElement = document.getElementById("canvas");
         var canvas = canvasElement.getContext("2d");
@@ -217,7 +205,7 @@
             modal.find('#reserving_id').val(reserving_id)
             setTimeout(function () {
                 $('#code').focus();
-            },500)
+            }, 500)
         })
     </script>
 @endsection

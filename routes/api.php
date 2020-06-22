@@ -23,3 +23,8 @@ Route::get('equipment/{code}', function ($code){
         'result' => \App\Equipment::where('code',$code)->first()
     ]);
 });
+
+Route::name('dataTable.')->prefix('dataTable')->group(function () {
+    Route::get('reserved', 'API\DataTable@reserved_equipment')->name('dashboard.reserved');
+    Route::get('reserving', 'API\DataTable@reserving_equipment')->name('dashboard.reserving');
+});

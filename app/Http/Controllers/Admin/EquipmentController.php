@@ -34,7 +34,7 @@ class EquipmentController extends Controller
             ->where('users.role', 'engineer')
             ->select(\DB::raw('COUNT(task_cal_equipments.id) AS total_task'), 'users.*')
             ->groupBy('users.id')
-            ->orderBy('total_task','desc')
+            ->orderBy('total_task', 'desc')
             ->get();
         return view('admin.equipment.index')->with([
             'engineers' => $engineers
@@ -46,17 +46,17 @@ class EquipmentController extends Controller
         $results = Equipment::all();
         $dataTable = [];
         foreach ($results as $index => $result) {
-            if ($result->equipment_state == 0){
+            if ($result->equipment_state == 0) {
                 $engineer = '<div class="col-12 mb-2">
                         <button data-toggle="modal" data-target="#assignModal" data-eid="' . $result->id . '" class="btn btn-warning w-100"><i class="fa fa-wrench" aria-hidden="true"></i></button>
                     </div>';
-            }elseif ($result->equipment_state == 1){
+            } elseif ($result->equipment_state == 1) {
                 $engineer = '<div class="col-12 mb-2">
                              <button type="button" class="btn btn-warning w-100" data-eid="' . $result->id . '" data-toggle="modal" data-target="#restoreModal">
                                         <i class="fa fa-rotate-right"></i>
                              </button>
                              </div>';
-            } else{
+            } else {
                 $engineer = '';
             }
             $dataTable[] = [
@@ -73,7 +73,7 @@ class EquipmentController extends Controller
                     <div class="col-12 mb-2">
                         <a href="' . route("admin.equipments.edit", ["id" => $result->id]) . '" class="btn btn-primary w-100"><i class="fa fa-print"></i></a>
                     </div>
-                    '.$engineer.'<div class="col-12 mb-2">
+                    ' . $engineer . '<div class="col-12 mb-2">
                         <a href="' . route("admin.equipments.edit", ["id" => $result->id]) . '" class="btn btn-info w-100"><i class="fa fa-edit"></i></a>
                     </div>
                     <div class="col-12">
@@ -109,22 +109,32 @@ class EquipmentController extends Controller
     public function store(Request $request)
     {
         $validator = $request->validate([
-            'name' => 'required|string',
+            'name' => 'required',
             'category' => 'required|string',
             'type' => 'required|string',
             'description' => 'string|nullable',
             'equipment_state' => 'required',
-            'serial' => 'required'
+            'serial' => 'required',
+            'code' => 'required'
         ]);
-        while (true) {
-            $code = random_string();
-            $check = Equipment::where('code', $code)->count();
-            if ($check == 0)
-                break;
+
+        if ($validator['name'] == 1) {
+            $name = "Infusomat Space P";
+        } else if ($validator['name'] == 2) {
+            $name = "Pole Clamp";
+        } else if ($validator['name'] == 3) {
+            $name = "Power Supply";
+        } else {
+            return redirect()->back()->withInput()->with([
+                'status' => [
+                    'class' => 'danger',
+                    'message' => 'บันทึกข้อมูลครุภัณฑ์ ไม่สำเร็จ ไม่พบอุปกรณ์นี้'
+                ]
+            ]);
         }
         $create = Equipment::create([
-            'code' => $code,
-            'name' => $validator['name'],
+            'code' => $validator['code'],
+            'name' => $name,
             'category' => $validator['category'],
             'type' => $validator['type'],
             'description' => $validator['description'],
@@ -184,14 +194,14 @@ class EquipmentController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if (isset($request->assign) && $request->assign == 1){
+        if (isset($request->assign) && $request->assign == 1) {
             $validator = $request->validate([
                 'engineer_id' => 'required',
                 'due_date' => 'required',
                 'description' => 'required|string',
                 'task_name' => 'required|string'
             ]);
-            try{
+            try {
                 DB::beginTransaction();
                 Equipment::find($id)->update([
                     'equipment_state' => '2'
@@ -212,14 +222,14 @@ class EquipmentController extends Controller
                     'complete_date' => null
                 ]);
                 DB::commit();
-                sendAlertNotification($validator['engineer_id'],route('engineer.tasks.show',['id' => $new_task->id]));
+                sendAlertNotification($validator['engineer_id'], route('engineer.tasks.show', ['id' => $new_task->id]));
                 return redirect()->back()->with([
                     'status' => [
                         'class' => 'success',
                         'message' => 'บันทึกมอบหมายงานสำเร็จ'
                     ]
                 ]);
-            }catch (\Exception $exception){
+            } catch (\Exception $exception) {
                 DB::rollBack();
                 return redirect()->back()->withInput()->with([
                     'status' => [
@@ -228,7 +238,7 @@ class EquipmentController extends Controller
                     ]
                 ]);
             }
-        }else{
+        } else {
             $validator = $request->validate([
                 'name' => 'required|string',
                 'category' => 'required|string',
@@ -283,9 +293,10 @@ class EquipmentController extends Controller
         }
     }
 
-    public function reserved($id){
+    public function reserved($id)
+    {
         $equipment = Equipment::find($id);
-        $reserving = ReservingTool::where('equipment_id',$id)->where('reserving_state','1')->first();
+        $reserving = ReservingTool::where('equipment_id', $id)->where('reserving_state', '1')->first();
         $user = User::find($reserving->user_id);
         return response()->json([
             'user' => $user->name,
@@ -294,10 +305,11 @@ class EquipmentController extends Controller
         ]);
     }
 
-    public function restore(Request $request){
-        try{
+    public function restore(Request $request)
+    {
+        try {
             $reserving = ReservingTool::find($request->reserving_id);
-            if ($reserving->reserving_state !== '1'){
+            if ($reserving->reserving_state !== '1') {
                 return redirect()->back()->withInput()->with([
                     'status' => [
                         'class' => 'danger',
@@ -309,14 +321,14 @@ class EquipmentController extends Controller
             $reserving->update([
                 'restore_state' => 1
             ]);
-            sendRestoreNotification($reserving->user_id,route('notification.restore',['id' => $reserving->id]));
+            sendRestoreNotification($reserving->user_id, route('notification.restore', ['id' => $reserving->id]));
             return redirect()->back()->with([
                 'status' => [
                     'class' => 'success',
                     'message' => 'ส่งข้อความเพื่อเรียกคืนอุปกรณ์สำเร็จ'
                 ]
             ]);
-        } catch (\Exception $exception){
+        } catch (\Exception $exception) {
             return redirect()->back()->withInput()->with([
                 'status' => [
                     'class' => 'success',
@@ -326,21 +338,28 @@ class EquipmentController extends Controller
         }
     }
 
-    public function return(Request $request){
-        try{
+    public function return(Request $request)
+    {
+        try {
             DB::beginTransaction();
-            $equipment = Equipment::where('code',$request->code)->first();
-            $reserving = ReservingTool::where('equipment_id',$equipment->id)->where('reserving_state','1')->first();
+            $equipment = Equipment::where('code', $request->code)->first();
+            $reserving = ReservingTool::where('equipment_id', $equipment->id)->where('reserving_state', '1')->first();
 
-            Equipment::find($equipment->id)->update([
-                'equipment_state' => '0'
-            ]);
+            if ($reserving->restore_state){
+                Equipment::find($equipment->id)->update([
+                    'equipment_state' => '2'
+                ]);
+            } else{
+                Equipment::find($equipment->id)->update([
+                    'equipment_state' => '0'
+                ]);
+            }
             ReservingTool::find($reserving->id)->update([
                 'reserving_state' => '5',
-                'restore' => 0
+                'restore_state' => 0
             ]);
 
-            ReservingLog::where('reserving_id',$reserving->id)->update([
+            ReservingLog::where('reserving_id', $reserving->id)->update([
                 'return_date' => Carbon::now(),
                 'return_reason' => $request->return_reason ?: null
             ]);
@@ -351,7 +370,7 @@ class EquipmentController extends Controller
                     'message' => 'แก้ไขสถานะสำเร็จ'
                 ]
             ]);
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
             DB::rollBack();
             return redirect()->back()->withInput()->with([
                 'status' => [

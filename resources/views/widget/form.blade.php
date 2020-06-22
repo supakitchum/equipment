@@ -97,6 +97,6 @@
         </div>
     @endif
     @if(!isset($button) || $button)
-        <button type="submit" class="btn btn-success float-right w-100">ยืนยัน</button>
+        <button type="submit" class="btn btn-success float-right w-100"><i class="fa fa-save"></i> บันทึก</button>
     @endif
 </form>

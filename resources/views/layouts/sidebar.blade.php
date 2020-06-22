@@ -58,12 +58,6 @@
                         <p>แลกเปลี่ยนครุภัณฑ์</p>
                     </a>
                 </li>
-                <li class="{{ isActive('equipments*') }}">
-                    <a href="{{ route('user.equipments.index') }}">
-                        <i class="fa fa-wrench"></i>
-                        <p>ครุภัณฑ์</p>
-                    </a>
-                </li>
                 <li class="{{ isActive('histories*') }}">
                     <a href="{{ route('user.histories.index') }}">
                         <i class="fa fa-folder-open"></i>

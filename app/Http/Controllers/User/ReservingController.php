@@ -11,6 +11,7 @@ use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 
 class ReservingController extends Controller
 {
@@ -207,8 +208,12 @@ class ReservingController extends Controller
         $request = ReservingTool::find($id);
         $request->reserving_state = '2';
 
-        $result = Equipment::find($request->equipment_id);
-        $result->equipment_state = '0';
+        DB::beginTransaction();
+        if (isset($request->equipment_id)){
+            $result = Equipment::find($request->equipment_id);
+            $result->equipment_state = '0';
+            $result->save();
+        }
 
         ReservingLog::where('reserving_id', $request->id)->update([
             'reject_date' => Carbon::now()
@@ -216,7 +221,7 @@ class ReservingController extends Controller
 
         try {
             $request->save();
-            $result->save();
+            DB::commit();
             return redirect()->back()->with([
                 'status' => [
                     'class' => 'success',
@@ -224,6 +229,7 @@ class ReservingController extends Controller
                 ]
             ]);
         } catch (\Exception $e) {
+            DB::rollBack();
             return redirect()->back()->with([
                 'status' => [
                     'class' => 'danger',

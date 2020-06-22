@@ -24,9 +24,9 @@
                             [
                                 'col' => 'col-sm-12 col-lg-12',
                                 'tag' => 'input',
-                                'name' => 'serial',
-                                'id' => 'serial',
-                                'label' => 'รหัส',
+                                'name' => 'code',
+                                'id' => 'code',
+                                'label' => 'เลขครุภัณฑ์',
                                 'type' => 'text',
                                 'placeholder' => '',
                                 'required' => true
@@ -34,9 +34,33 @@
                             [
                                 'col' => 'col-sm-12 col-lg-12',
                                 'tag' => 'input',
+                                'name' => 'serial',
+                                'id' => 'serial',
+                                'label' => 'รหัสครุภัณฑ์',
+                                'type' => 'text',
+                                'placeholder' => '',
+                                'required' => true
+                            ],
+                            [
+                                'col' => 'col-sm-12 col-lg-12',
+                                'tag' => 'select',
+                                'options' => [
+                                    [
+                                        'value' => 1,
+                                        'text' => 'Infusomat Space P'
+                                    ],
+                                    [
+                                        'value' => 2,
+                                        'text' => 'Pole Clamp'
+                                    ],
+                                    [
+                                        'value' => 3,
+                                        'text' => 'Power Supply'
+                                    ]
+                                ],
                                 'name' => 'name',
                                 'id' => 'name',
-                                'label' => 'ชื่ออุปกรณ์',
+                                'label' => 'ชื่อครุภัณฑ์',
                                 'type' => 'text',
                                 'placeholder' => '',
                                 'required' => true
@@ -49,7 +73,8 @@
                                 'label' => 'หมวดหมู่',
                                 'type' => 'text',
                                 'placeholder' => '',
-                                'required' => true
+                                'required' => true,
+                                'readonly' => true
                             ],
                             [
                                 'col' => 'col-sm-12 col-lg-12',
@@ -59,7 +84,8 @@
                                 'label' => 'ประเภท',
                                 'type' => 'text',
                                 'placeholder' => '',
-                                'required' => true
+                                'required' => true,
+                                'readonly' => true
                             ],
                             [
                                 'col' => 'col-sm-12 col-lg-12',
@@ -102,4 +128,21 @@
             </div>
         </div>
     </div>
+@endsection
+@section('script')
+    <script>
+        $('#name').change(function () {
+            let name = $('#name').val();
+            if (name == 1){
+                $('#category').val("Medical Equipment");
+                $('#type').val('Infusion Pump');
+            } else if (name == 2 || name == 3){
+                $('#category').val('Medical Equipment');
+                $('#type').val('Accessory');
+            } else{
+                $('#category').val('');
+                $('#type').val('');
+            }
+        })
+    </script>
 @endsection

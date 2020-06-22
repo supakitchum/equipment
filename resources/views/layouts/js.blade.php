@@ -16,12 +16,16 @@
 <script src="{{ asset('js/jsQR.js') }}"></script>
 <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
+
+<!-- (Optional) Latest compiled and minified JavaScript translation files -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/i18n/defaults-*.min.js"></script>
 <script>
     var count = 0;
-    $(document).ready(function () {
-        // Javascript method's body can be found in assets/assets-for-demo/js/demo.js
-        demo.initChartsPages();
-    });
 
     function readNotification(id,href) {
         $.get('/notification/'+id, function (data, status) {
@@ -34,8 +38,8 @@
     function getNotification() {
         $.get('/notifications/create', function (data, status) {
             if (data.code === 0) {
-                if (count !== data.result.unread) {
-                    count = data.result.unread;
+                if (count !== data.result.messages.length) {
+                    count = data.result.messages.length;
                     $('#unread_count').text(data.result.unread)
                     data.result.messages.forEach((message) => {
                         if (message.status === 0){

@@ -1,7 +1,7 @@
 <script>
     $(document).ready(function () {
         @foreach($tables as $table)
-        $('#{{ $table }}').dataTable({
+        var {{ $table }}_table = $('#{{ $table }}').dataTable({
             "responsive": true,
             "language": {
                 "lengthMenu": "แสดง _MENU_ รายการ ต่อหน้า",

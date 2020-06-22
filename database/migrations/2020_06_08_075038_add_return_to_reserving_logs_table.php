@@ -15,7 +15,7 @@ class AddReturnToReservingLogsTable extends Migration
     {
         Schema::table('reserving_logs', function (Blueprint $table) {
             $table->dateTime('return_date')->nullable();
-            $table->dateTime('return_reason')->nullable();
+            $table->text('return_reason')->nullable();
         });
     }
 

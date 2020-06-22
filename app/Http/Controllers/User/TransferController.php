@@ -137,7 +137,12 @@ class TransferController extends Controller
      */
     public function show($id)
     {
-        //
+        $reserving = ReservingTool::find($id);
+        $equipment = Equipment::find($reserving->equipment_id);
+        return view('user.transfer.show')->with([
+            'reserving' => $reserving,
+            'equipment' => $equipment
+        ]);
     }
 
     /**
@@ -184,8 +189,10 @@ class TransferController extends Controller
                 sendApproveNotification($reserving->user_id,route('user.transfers.show',['id' => $reserving->id]));
 
                 //  Update New Reserving Transaction
-                $reserving->reserving_state = '1';
-                $reserving->save();
+                $reserving->update([
+                    'reserving_state' => '1'
+                ]);
+
                 $reserving_log->update([
                     "approve_date" => $now
                 ]);

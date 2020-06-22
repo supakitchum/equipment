@@ -36,7 +36,15 @@ class UserSeederTable extends Seeder
             ]);
         }
         \App\User::create([
-            'email' => 'user@email.com',
+            'email' => 'user1@email.com',
+            'password' => bcrypt('letmein'),
+            'name' => $faker->name,
+            'role' => 'user',
+            'description' => $faker->text
+        ]);
+
+        \App\User::create([
+            'email' => 'user2@email.com',
             'password' => bcrypt('letmein'),
             'name' => $faker->name,
             'role' => 'user',

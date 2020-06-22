@@ -32,6 +32,7 @@ class HomeController extends Controller
                     ReservingTool::where('reserving_state','0')->count(),
                     $reservedEquipment
                 ],
+                "users" => User::where('role','user')->get(),
                 "reserving" => ReservingTool::where('reserving_state','=','0')->whereNull('approved_by')->get()
             ]);
         } elseif (checkRole('user')) {
