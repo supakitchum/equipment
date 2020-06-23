@@ -23,7 +23,7 @@ class TaskController extends Controller
     public function index()
     {
         $results = TaskCalEquipment::leftjoin('equipments','task_cal_equipments.equipment_id','=','equipments.id')
-            ->select('task_cal_equipments.*','equipments.name as equipment_name','equipments.code')
+            ->select('task_cal_equipments.*','equipments.name as equipment_name','equipments.code','equipments.serial')
             ->where('user_id',auth()->user()->id)
             ->where('task_cal_equipments.state',0)
             ->get();
@@ -121,7 +121,7 @@ class TaskController extends Controller
             $task = TaskCalEquipment::find($id);
 
             Equipment::find($task->equipment_id)->update([
-                'equipment_state' => 0
+                'equipment_state' => '0'
             ]);
 
             $task->update([

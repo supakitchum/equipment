@@ -34,6 +34,13 @@ if (!function_exists('equipmentState')) {
             case '3':
                 return '<span class="badge badge-danger">ไม่มีอุปกรณ์นี้แล้ว</span>';
                 break;
+            case '4':
+                if (checkRole('user')){
+                    return '<span class="badge badge-danger">กำลังซ่อมบำรุง</span>';
+                } else{
+                    return '<span class="badge badge-success">ส่งคืนพร้อมซ่อมบำรุง</span>';
+                }
+                break;
         }
     }
 }

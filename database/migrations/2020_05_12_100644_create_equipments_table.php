@@ -20,7 +20,7 @@ class CreateEquipmentsTable extends Migration
             $table->string('category');
             $table->string('type');
             $table->text('description');
-            $table->enum('equipment_state',[0,1,2,3])->default(0);
+            $table->enum('equipment_state',[0,1,2,3,4])->default(0);
             $table->timestamps();
         });
     }

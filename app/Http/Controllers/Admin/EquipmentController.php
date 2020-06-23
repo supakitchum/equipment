@@ -8,6 +8,7 @@ use App\ReservingTool;
 use App\TaskCalEquipment;
 use App\TaskCalLog;
 use App\User;
+use Barryvdh\DomPDF\PDF;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -46,7 +47,7 @@ class EquipmentController extends Controller
         $results = Equipment::all();
         $dataTable = [];
         foreach ($results as $index => $result) {
-            if ($result->equipment_state == 0) {
+            if ($result->equipment_state == 0 || $result->equipment_state == 4) {
                 $engineer = '<div class="col-12 mb-2">
                         <button data-toggle="modal" data-target="#assignModal" data-eid="' . $result->id . '" class="btn btn-warning w-100"><i class="fa fa-wrench" aria-hidden="true"></i></button>
                     </div>';
@@ -71,7 +72,7 @@ class EquipmentController extends Controller
                 equipmentState($result->equipment_state),
                 ' <div class="row">
                     <div class="col-12 mb-2">
-                        <a href="' . route("admin.equipments.edit", ["id" => $result->id]) . '" class="btn btn-primary w-100"><i class="fa fa-print"></i></a>
+                        <a target="_blank" href="' . route("admin.equipments.print", ["code" => $result->code]) . '" class="btn btn-primary w-100"><i class="fa fa-print"></i></a>
                     </div>
                     ' . $engineer . '<div class="col-12 mb-2">
                         <a href="' . route("admin.equipments.edit", ["id" => $result->id]) . '" class="btn btn-info w-100"><i class="fa fa-edit"></i></a>
@@ -195,6 +196,7 @@ class EquipmentController extends Controller
     public function update(Request $request, $id)
     {
         if (isset($request->assign) && $request->assign == 1) {
+            //  มอบหมายงานให้ช่าง
             $validator = $request->validate([
                 'engineer_id' => 'required',
                 'due_date' => 'required',
@@ -347,7 +349,7 @@ class EquipmentController extends Controller
 
             if ($reserving->restore_state){
                 Equipment::find($equipment->id)->update([
-                    'equipment_state' => '2'
+                    'equipment_state' => '4'
                 ]);
             } else{
                 Equipment::find($equipment->id)->update([
@@ -379,5 +381,28 @@ class EquipmentController extends Controller
                 ]
             ]);
         }
+    }
+
+    public function printQR($code){
+        if ($code == 'all'){
+            $equipments = Equipment::all();
+        }else{
+            $equipments = Equipment::where('code',$code);
+            if ($equipments->count() == 0){
+                return redirect(route('admin.equipments.index'))->with([
+                    'status' => [
+                        'class' => 'danger',
+                        'message' => 'ไม่พบเลขครุภัณฑ์นี้ในระบบ'
+                    ]
+                ]);
+            }
+            $equipments = $equipments->get();
+        }
+
+        $pdf = \PDF::loadView('pdf',[
+            'equipments' => $equipments
+        ]);
+        return @$pdf->stream();
+
     }
 }

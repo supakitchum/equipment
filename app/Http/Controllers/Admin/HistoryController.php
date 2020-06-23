@@ -24,7 +24,7 @@ class HistoryController extends Controller
                 ->leftjoin('equipments','reserving_tools.equipment_id','=','equipments.id')
                 ->leftjoin('users','reserving_tools.user_id','=','users.id')
                 ->where('approved_by',auth()->user()->id)
-                ->select('users.name as username','reserving_logs.approve_date','reserving_logs.transfer_date','reserving_logs.reject_date','reserving_logs.request_date','reserving_logs.return_date','reserving_logs.return_reason','equipments.name as equipment_name','equipments.code','reserving_tools.reserving_state','reserving_tools.description')
+                ->select('users.name as username','reserving_logs.approve_date','reserving_logs.transfer_date','reserving_logs.reject_date','reserving_logs.request_date','reserving_logs.return_date','reserving_logs.return_reason','equipments.name as equipment_name','equipments.code','reserving_tools.reserving_state','reserving_tools.description','equipments.code','equipments.serial')
                 ->get();
         }
         else if (checkRole('superadmin')){
@@ -32,7 +32,7 @@ class HistoryController extends Controller
                 ->leftjoin('equipments','reserving_tools.equipment_id','=','equipments.id')
                 ->leftjoin('users','reserving_tools.user_id','=','users.id')
                 ->leftjoin('users as admin','reserving_tools.approved_by','=','admin.id')
-                ->select('admin.name as admin_name','reserving_tools.approved_by','users.name as username','reserving_logs.approve_date','reserving_logs.transfer_date','reserving_logs.reject_date','reserving_logs.request_date','reserving_logs.return_date','reserving_logs.return_reason','equipments.name as equipment_name','equipments.code','reserving_tools.reserving_state','reserving_tools.description')
+                ->select('admin.name as admin_name','reserving_tools.approved_by','users.name as username','reserving_logs.approve_date','reserving_logs.transfer_date','reserving_logs.reject_date','reserving_logs.request_date','reserving_logs.return_date','reserving_logs.return_reason','equipments.name as equipment_name','equipments.code','reserving_tools.reserving_state','reserving_tools.description','equipments.code','equipments.serial')
                 ->get();
         }
         return view('admin.history.index')->with(['results' => $results]);

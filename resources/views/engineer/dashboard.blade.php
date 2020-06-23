@@ -82,10 +82,12 @@
                                <th>ลำดับ</th>
                                <th>ชื่องาน</th>
                                <th>ชื่อครุภัณฑ์</th>
+                               <th>เลขครุภัณฑ์</th>
                                <th>รหัสครุภัณฑ์</th>
                                <th>วันที่กำหนด</th>
                                <th>ได้รับมอบหมายเมื่อ</th>
                                <th>รายละเอียด</th>
+                               <th></th>
                                <th></th>
                                </thead>
                                <tbody>
@@ -96,9 +98,15 @@
                                            <td>{{ $result->task_name }}</td>
                                            <td>{{ $result->equipment_name }}</td>
                                            <td>{{ $result->code }}</td>
+                                           <td>{{ $result->serial }}</td>
                                            <td>{{ $result->due_date }}</td>
                                            <td>{{ $result->created_at }}</td>
                                            <td>{{ $result->description }}</td>
+                                           <td>
+                                               <a href="{{ route('engineer.tasks.show',['id' => $result->id]) }}" class="btn btn-info w-100">
+                                                   <i class="fa fa-eye"></i>
+                                               </a>
+                                           </td>
                                            <td>
                                                <form id="submit-{{ $result->id }}"
                                                      action="{{ route('engineer.tasks.update',['id' => $result->id]) }}"
@@ -125,7 +133,7 @@
     </div>
 @endsection
 @section('script')
-{{--    @include('widget.dataTable',array('tables' => ['dataTable']))--}}
+    @include('widget.dataTable',array('tables' => ['dataTable']))
 <script>
     function confirmForm(id) {
         Swal.fire({

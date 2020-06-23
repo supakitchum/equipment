@@ -6,14 +6,17 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="row">
-                            <div class="col-12 col-lg-8">
+                            <div class="col-12 col-lg-6">
                                 <h2 class="card-title">รายการครุภัณฑ์</h2>
                             </div>
-                            <div class="col-6 col-lg-2">
+                            <div class="col-4 col-lg-2">
+                                <a href="{{ route('admin.equipments.print',['code' => 'all']) }}" target="_blank" class="btn btn-primary w-100"><i class="fa fa-print"></i> พิมพ์ทั้งหมด</a>
+                            </div>
+                            <div class="col-12 col-lg-2">
                                 <a href="{{ route('admin.equipments.create') }}" class="btn btn-success w-100"><i
                                         class="fa fa-plus"></i> เพิ่ม</a>
                             </div>
-                            <div class="col-6 col-lg-2">
+                            <div class="col-12 col-lg-2">
                                 <button data-toggle="modal" data-target="#returnModal" class="btn btn-info w-100"><i
                                         class="fa fa-rotate-left"></i> คืนครุภัณฑ์
                                 </button>

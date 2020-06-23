@@ -56,7 +56,7 @@ class HomeController extends Controller
                     TaskCalEquipment::where('user_id',auth()->user()->id)->where('state',1)->count(),
                 ],
                 "works" => TaskCalEquipment::leftjoin('equipments','task_cal_equipments.equipment_id','=','equipments.id')
-                    ->select('task_cal_equipments.*','equipments.name as equipment_name','equipments.code')
+                    ->select('task_cal_equipments.*','equipments.name as equipment_name','equipments.code','equipments.serial')
                     ->where('user_id',auth()->user()->id)
                     ->where('task_cal_equipments.state',0)
                     ->orderBy('task_cal_equipments.created_at','desc')

@@ -10,7 +10,6 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
 Route::get('/', 'HomeController@index');
 
 Route::resource('home', 'HomeController');
@@ -28,6 +27,7 @@ Route::name('admin.')->prefix('admin')->group(function () {
     Route::get('equipment/reserved/{id}', 'Admin\EquipmentController@reserved')->name('equipments.reserved');
     Route::post('equipment/restore', 'Admin\EquipmentController@restore')->name('equipments.restore');
     Route::post('equipment/return', 'Admin\EquipmentController@return')->name('equipments.return');
+    Route::get('equipment/pdf/{code}', 'Admin\EquipmentController@printQR')->name('equipments.print');
     Route::resource('histories', 'Admin\HistoryController');
     Route::resource('members', 'Admin\MemberController');
     Route::resource('reserving', 'Admin\ReservingController');

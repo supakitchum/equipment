@@ -16,8 +16,10 @@
                         <table class="table" id="dataTable1">
                             <thead class="">
                             <th>ลำดับ</th>
-                            <th>ชื่อผู้ร้อง</th>
+                            <th>เลขครุภัณฑ์</th>
+                            <th>รหัสครุภัณฑ์</th>
                             <th>ชื่ออุปกรณ์</th>
+                            <th>ชื่อผู้ร้อง</th>
                             <th>สถานะ</th>
                             <th>ร้องขอเมื่อ</th>
                             <th>อนุมัติเมื่อ</th>
@@ -32,9 +34,11 @@
                             <tbody>
                             @foreach($results as $index => $result)
                             <tr>
-                                <td>{{ $index + 1 }}</td>
-                                <td>{{ $result->username }}</td>
+                                <td class="text-center">{{ $index + 1 }}</td>
+                                <td>{{ $result->code?: '-' }}</td>
+                                <td>{{ $result->serial?: '-' }}</td>
                                 <td>{{ $result->equipment_name?: '-' }}</td>
+                                <td>{{ $result->username }}</td>
                                 <td>{!! reservingState($result->reserving_state) !!}</td>
                                 <td>{{ $result->request_date?:'-' }}</td>
                                 <td>{{ $result->approve_date ?:'-' }}</td>
