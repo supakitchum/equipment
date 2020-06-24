@@ -31,7 +31,7 @@
             font-family: 'THSarabunNew';
             font-style: italic;
             font-weight: bold;
-            src: url("{{ asset('fonts/THSarabunNew BoldItalic.ttf') }}") format('truetype');
+            src: url("{{ asset('fonts/THSarabunNewBoldItalic.ttf') }}") format('truetype');
         }
 
         body {
