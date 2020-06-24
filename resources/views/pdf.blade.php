@@ -17,14 +17,14 @@
             font-family: 'THSarabunNew';
             font-style: normal;
             font-weight: bold;
-            src: url("{{ asset('fonts/THSarabunNew Bold.ttf') }}") format('truetype');
+            src: url("{{ asset('fonts/THSarabunNewBold.ttf') }}") format('truetype');
         }
 
         @font-face {
             font-family: 'THSarabunNew';
             font-style: italic;
             font-weight: normal;
-            src: url("{{ asset('fonts/THSarabunNew Italic.ttf') }}") format('truetype');
+            src: url("{{ asset('fonts/THSarabunNewItalic.ttf') }}") format('truetype');
         }
 
         @font-face {
