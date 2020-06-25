@@ -33,7 +33,7 @@
                                         <td>{!! reservingState((int)$result->reserving_state) !!}</td>
                                         <td>{{ $result->username }}</td>
                                         <td>
-                                            <button class="w-100 btn btn-primary" data-toggle="modal" data-target="#exampleModal" onclick="choose('{{ $result->equipment_name }}','{{ $result->equipment_id }}','{{ $result->equipment_code }}','{{ $result->id }}')">ขอยืม</button>
+                                            <button class="w-100 btn btn-primary" data-toggle="modal" data-target="#exampleModal" onclick="choose('{{ $result->equipment_name }}','{{ $result->equipment_id }}','{{ $result->code }}','{{ $result->id }}')">ขอยืม</button>
                                         </td>
                                     </tr>
                                 @endforeach
