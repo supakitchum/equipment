@@ -43,7 +43,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-12 col-lg-5">
+            <div class="col-12">
                 <div class="card">
                     <div class="card-header">
                         <div class="row">
@@ -56,7 +56,9 @@
                         <div class="table-responsive">
                             <table class="table" id="dataTable3">
                                 <thead class="">
-                                <th>ชื่ออุปกรณ์</th>
+                                <th>ชื่อครุภัณฑ์</th>
+                                <th>เลขครุภัณฑ์</th>
+                                <th>รหัสครุภัณฑ์</th>
                                 <th>ผู้ครอบครอง</th>
                                 <th>ร้องขอเมื่อ</th>
                                 <th></th>
@@ -65,6 +67,8 @@
                                 @foreach($my_requests as $index => $result)
                                     <tr>
                                         <td>{{ $result->equipment_name }}</td>
+                                        <td>{{ $result->code }}</td>
+                                        <td>{{ $result->serial }}</td>
                                         <td>{{ $result->username }}</td>
                                         <td>{{ $result->created_at }}</td>
                                         <td>
@@ -92,7 +96,9 @@
                             <table class="table" id="dataTable2">
                                 <thead class="">
                                 <th>ลำดับ</th>
-                                <th>ชื่ออุปกรณ์</th>
+                                <th>ชื่อครุภัณฑ์</th>
+                                <th>เลขครุภัณฑ์</th>
+                                <th>รหัสครุภัณฑ์</th>
                                 <th>รายละเอียดคำร้อง</th>
                                 <th>ผู้ขอยืม</th>
                                 <th></th>
@@ -102,6 +108,8 @@
                                     <tr>
                                         <td>{{ $index + 1 }}</td>
                                         <td>{{ $result->equipment_name }}</td>
+                                        <td>{{ $result->code }}</td>
+                                        <td>{{ $result->serial }}</td>
                                         <td>{!! $result->description !!}</td>
                                         <td>{{ $result->username }}</td>
                                         <td>
