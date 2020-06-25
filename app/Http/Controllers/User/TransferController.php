@@ -32,7 +32,8 @@ class TransferController extends Controller
                 'users.name as username',
                 'equipments.name as equipment_name',
                 'equipments.id as equipment_id',
-                'equipments.code as equipment_code'
+                'equipments.code',
+                'equipments.serial'
             )
             ->get();
         $requests = ReservingTool::leftjoin('equipments', 'reserving_tools.equipment_id', '=', 'equipments.id')

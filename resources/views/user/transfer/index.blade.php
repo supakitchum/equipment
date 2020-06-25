@@ -16,7 +16,9 @@
                             <table class="table" id="dataTable1">
                                 <thead class="">
                                 <th>ลำดับ</th>
-                                <th>ชื่ออุปกรณ์</th>
+                                <th>ชื่อครุภัณฑ์</th>
+                                <th>เลขครุภัณฑ์</th>
+                                <th>รหัสครุภัณฑ์</th>
                                 <th>สถานะ</th>
                                 <th>ผู้ยืม</th>
                                 <th></th>
@@ -26,6 +28,8 @@
                                     <tr>
                                         <td>{{ $index + 1 }}</td>
                                         <td>{{ $result->equipment_name }}</td>
+                                        <td>{{ $result->code }}</td>
+                                        <td>{{ $result->serial }}</td>
                                         <td>{!! reservingState((int)$result->reserving_state) !!}</td>
                                         <td>{{ $result->username }}</td>
                                         <td>
