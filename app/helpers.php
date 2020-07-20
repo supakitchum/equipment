@@ -60,25 +60,43 @@ if (!function_exists('random_string')) {
 }
 
 if (!function_exists('reservingState')) {
-    function reservingState($state){
+    function reservingState($state,$html = true){
         switch ($state){
             case 0:
-                return '<span class="badge badge-info text-uppercase">Requesting</span>';
+                if ($html)
+                    return '<span class="badge badge-info text-uppercase">Requesting</span>';
+                else
+                    return 'Requesting';
                 break;
             case 1:
-                return '<span class="badge badge-success text-uppercase">Approved</span>';
+                if ($html)
+                    return '<span class="badge badge-success text-uppercase">Approved</span>';
+                else
+                    return 'Approved';
                 break;
             case 2:
-                return '<span class="badge badge-danger text-uppercase">Rejected</span>';
+                if ($html)
+                    return '<span class="badge badge-danger text-uppercase">Rejected</span>';
+                else
+                    return 'Rejected';
                 break;
             case 3:
-                return '<span class="badge badge-warning text-uppercase">Transferred</span>';
+                if ($html)
+                    return '<span class="badge badge-warning text-uppercase">Transferred</span>';
+                else
+                    return 'Transferred';
                 break;
             case 4:
-                return '<span class="badge badge-warning text-uppercase">Transferring</span>';
+                if ($html)
+                    return '<span class="badge badge-warning text-uppercase">Transferring</span>';
+                else
+                    return 'Transferring';
                 break;
             case 5:
-                return '<span class="badge badge-success text-uppercase">Return</span>';
+                if ($html)
+                    return '<span class="badge badge-success text-uppercase">Return</span>';
+                else
+                    return 'Return';
                 break;
         }
     }

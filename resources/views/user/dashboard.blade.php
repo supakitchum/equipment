@@ -65,7 +65,7 @@
                             </div>
                             <div class="col-7 col-md-8">
                                 <div class="numbers">
-                                    <p class="card-category">คำร้องรออนุมัติ</p>
+                                    <p class="card-category">คำร้องขอแลกเปลี่ยนรออนุมัติ</p>
                                     <p class="card-title" id="quick3">{{ $counts[2] }}<p>
                                 </div>
                             </div>

@@ -31,6 +31,7 @@ Route::name('admin.')->prefix('admin')->group(function () {
     Route::resource('histories', 'Admin\HistoryController');
     Route::resource('members', 'Admin\MemberController');
     Route::resource('reserving', 'Admin\ReservingController');
+    Route::post('print/history','Admin\HistoryController@excel')->name('excel');
     Route::get('dataTable/reserving', 'Admin\ReservingController@dataTable')->name('reserving.dataTable');
 });
 

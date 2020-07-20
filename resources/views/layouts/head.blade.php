@@ -18,6 +18,8 @@
 <link href="{{ asset('demo/demo.css') }}" rel="stylesheet" />
 <link href="{{ asset('css/main.css') }}" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+<link href="{{ asset('css/datetimepicker/datepicker.css') }}" rel="stylesheet" media="screen">
+
 @if (session('status'))
     <script>
         @if(session('status')["class"] == "success")

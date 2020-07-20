@@ -29,11 +29,16 @@ class ReservingController extends Controller
 
     public function dataTable()
     {
-        $results = ReservingTool::where('reserving_state', '=', '0')->whereNull('approved_by')->get();
+        $results = ReservingTool::join('users','reserving_tools.user_id','=','users.id')
+            ->where('reserving_state', '=', '0')
+            ->whereNull('approved_by')
+            ->select('reserving_tools.*','users.name as username')
+            ->get();
         $dataTable = [];
         foreach ($results as $index => $result) {
             $dataTable[] = [
                 $index + 1,
+                $result->username,
                 $result->description,
                 reservingState((int)$result->reserving_state),
                 $result->created_at->format('Y-m-d H:m:s'),

@@ -12,6 +12,7 @@
                             <table class="table" id="dataTable">
                                 <thead class="">
                                 <th>ลำดับ</th>
+                                <th>ผู้ยืม</th>
                                 <th>รายละเอียดคำร้อง</th>
                                 <th>สถานะ</th>
                                 <th>ร้องขอเมื่อ</th>

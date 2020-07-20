@@ -24,9 +24,13 @@
 
 <!-- (Optional) Latest compiled and minified JavaScript translation files -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/i18n/defaults-*.min.js"></script>
-<script>
-    var count = 0;
+<script src="{{ asset('js/datetimepicker/bootstrap-datepicker.js') }}"></script>
+<script src="{{ asset('js/datetimepicker/bootstrap-datepicker-thai.js') }}"></script>
+<script src="{{ asset('js/datetimepicker/locales/bootstrap-datepicker.th.js') }}"></script>
 
+<script>
+    $('.datepicker').datepicker();
+    var count = 0;
     function readNotification(id,href) {
         $.get('/notification/'+id, function (data, status) {
             if (data.code === 0) {

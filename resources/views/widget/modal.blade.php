@@ -9,7 +9,7 @@
                 </button>
             </div>
             @if(isset($form))
-                <form action="{{ $form['action'] }}" method="{{ $form['method'] }}" id="{{ $form['id'] }}">
+                <form action="{{ $form['action'] }}" method="{{ $form['method'] }}" id="{{ $form['id'] }}" target="{{ isset($target) ? $target : '' }}">
                     <div class="modal-body">
                         @yield ($as . '_body')
                     </div>
