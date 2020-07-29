@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\ReservingTool;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -27,7 +28,7 @@ class DataTable extends Controller
                     $equipment->serial,
                     equipmentState($equipment->equipment_state),
                     $equipment->username,
-                    $equipment->updated_at->diffForHumans()
+                    Carbon::parse($equipment->updated_at)->diff(Carbon::now())->days
                 ];
             }
         } else {
@@ -45,7 +46,7 @@ class DataTable extends Controller
                     $equipment->serial,
                     equipmentState($equipment->equipment_state),
                     $equipment->username,
-                    $equipment->updated_at->diffForHumans()
+                    Carbon::parse($equipment->updated_at)->diff(Carbon::now())->days
                 ];
             }
         }
