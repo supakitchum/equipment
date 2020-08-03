@@ -8,7 +8,11 @@ class ReservingLog extends Model
 {
     protected $fillable = [
         'reserving_id',
-        'return_reason'
+        'return_reason',
+        'request_date',
+        'approve_date',
+        'transfer_date',
+        'reject_date'
     ];
 
     protected $dates = [
