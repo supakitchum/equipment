@@ -71,7 +71,9 @@
                                 <label for="role">ระดับ</label>
                                 <select class="form-control{{ $errors->has('role') ? ' is-invalid' : '' }}" style="height: 40px !important;" id="role" name="role">
                                     <option value="">กรุณาเลือก</option>
-                                    <option value="admin">ผู้ดูแลศูนย์อุปกรณ์</option>
+                                    @if(checkRole('superadmin'))
+                                        <option value="admin">ผู้ดูแลศูนย์อุปกรณ์</option>
+                                    @endif
                                     <option value="technician">ช่าง</option>
                                     <option value="user">หัวหน้าวอร์ด</option>
                                 </select>

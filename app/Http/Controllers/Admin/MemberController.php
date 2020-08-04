@@ -53,6 +53,18 @@ class MemberController extends Controller
             'role' => 'required',
             'description' => 'string|nullable'
         ]);
+
+        if (!checkRole('superadmin')){
+            if ($validator['role'] == 'admin'){
+                return redirect()->back()->withInput()->with([
+                    'status' => [
+                        'class' => 'danger',
+                        'message' => 'คุณไม่มีสิทธิ์ในการสร้างบัญชีระดับ ผู้ดูแลศูนย์'
+                    ]
+                ]);
+            }
+        }
+
         $create =  User::create([
             'email' => $validator['email'],
             'password' => bcrypt($validator['password']),
